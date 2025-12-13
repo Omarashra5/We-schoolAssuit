@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -21,9 +21,7 @@ export default function App() {
 
   return (
     <>
-      {loading && (
-        <Loader onFinish={() => setLoading(false)} />
-      )}
+      {loading && <Loader onFinish={() => setLoading(false)} />}
 
       {!loading && (
         <>
@@ -39,7 +37,7 @@ export default function App() {
                   <Features />
                   <CarouselComponent />
                   <OurPartners />
-                  <FinelPage/>
+                  <FinelPage />
                 </>
               }
             />

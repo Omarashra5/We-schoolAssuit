@@ -76,7 +76,8 @@ export default function InfoSection() {
     return (
         <section style={{ backgroundColor: bgColor, padding: "4rem 0", transition: "all 0.5s" }}>
             {/* Cards Section */}
-            <h1 className="text-center pb-4">{lang === "ar" ? "الاقسام" : "Departments"}<i class="fa-solid fa-building"></i></h1>
+            <h1 className="text-center pb-4">{lang === "ar" ? "الاقسام" : "Departments"}<i className="fa-solid fa-building" />
+</h1>
             <div className="container mb-5">
                 <div className="row g-4">
                     {text[lang].cards.map((card, idx) => (
@@ -119,7 +120,8 @@ export default function InfoSection() {
             </div>
             {/* Accordion Section */}
             <div className="container">
-                <h3 className={`mb-3 ${textColor}`}>{text[lang].faqTitle}<i class="fa-solid fa-question"></i></h3>
+                <h3 className={`mb-3 ${textColor}`}>{text[lang].faqTitle}<i className="fa-solid fa-question" />
+</h3>
                 <div className="accordion" id="faqAccordion">
                     {faqsToShow.map((faq, idx) => (
                         <div key={idx} className="accordion-item mt-2">
