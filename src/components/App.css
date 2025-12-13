@@ -1,0 +1,44 @@
+.partners-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.partners-track {
+  display: flex;
+  gap: 30px;
+  width: max-content;
+  animation: scrollPartners 20s linear infinite;
+}
+
+.partner-card {
+  min-width: 180px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.partner-card img {
+  max-height: 70px;
+  object-fit: contain;
+}
+
+.partner-card:hover {
+  transform: scale(1.1);
+}
+
+.partners-wrapper:hover .partners-track {
+  animation-play-state: paused;
+}
+
+@keyframes scrollPartners {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

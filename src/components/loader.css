@@ -1,0 +1,97 @@
+.loader-container {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #3a0ca3, #000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader-content {
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+}
+
+.loader-title { font-size: 3rem; letter-spacing: 4px; margin-bottom: 20px; text-transform: uppercase; }
+.loader-title .we { color: #ff6bcb; text-shadow: 0 0 15px rgba(255, 107, 203, 0.8); }
+.loader-title .assiut { color: #fff; font-weight: 300; }
+.loader-logo { width: 130px; margin: 20px auto; animation: logoPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
+
+.loader-bar {
+  width: 260px;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 25px auto 0;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6bcb, #5f0fff);
+  border-radius: 10px;
+}
+
+.loader-subtitle { color: rgba(255,255,255,0.7); font-size: 1rem; margin-top: 0.5rem; letter-spacing: 1px; text-transform: uppercase; }
+
+@keyframes logoPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(15px);} to{opacity:1;transform:translateY(0);} }
+/* شريط التحميل */
+.loader-bar {
+  width: 260px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 25px auto 0;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6bcb, #5f0fff);
+  border-radius: 10px;
+  transition: width 0.1s ease-in-out;
+}
+
+/* اللوجو */
+.loader-logo {
+  width: 130px;
+  margin: 20px auto;
+  animation: logoPulse 2s infinite ease-in-out;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* نصوص loader */
+.loader-title {
+  font-size: 3rem;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.loader-title .we {
+  color: #ff6bcb;
+  text-shadow: 0 0 15px rgba(255, 107, 203, 0.8);
+}
+
+.loader-title .assiut {
+  color: #fff;
+  font-weight: 300;
+}
+
+.loader-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}

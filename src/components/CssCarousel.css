@@ -1,0 +1,48 @@
+.carousel-container {
+  position: relative;
+  perspective: 1000px; /* عشان تأثير 3D */
+  overflow: hidden;
+}
+
+.carousel-wrapper {
+  position: relative;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+.carousel-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+
+.carousel-image {
+  position: absolute;
+  width: 200px;   /* حجم أكبر */
+  height: 150px;  /* حجم أكبر */
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  transition: all 0.5s ease;
+}
