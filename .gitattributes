@@ -1,1 +1,7 @@
 *.mp4 filter=lfs diff=lfs merge=lfs -text
+public/video/vid1.mp4 filter=lfs diff=lfs merge=lfs -text
+public/video/vid2.mp4 filter=lfs diff=lfs merge=lfs -text
+public/video/vid3.mp4 filter=lfs diff=lfs merge=lfs -text
+public/video/vid4.mp4 filter=lfs diff=lfs merge=lfs -text
+public/video/vid5.mp4 filter=lfs diff=lfs merge=lfs -text
+public/video/vid6.mp4 filter=lfs diff=lfs merge=lfs -text
