@@ -31,31 +31,151 @@ export default function News() {
   const [selectedNews, setSelectedNews] = useState(null);
   const newsPerPage = 6;
 
-  // تحميل الأخبار مع Loader
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      const data = [
-        { id: 1, title: isArabic ? "افتتاح مدرسة WE أسيوط" : "WE Assiut School Opening", date: "2025-12-01", content: isArabic ? "تم افتتاح مدرسة WE أسيوط للتكنولوجيا التطبيقية لتوفير تعليم عالي الجودة للطلاب." : "WE Assiut Applied Technology School has opened to provide high-quality education for students.", image: img1 },
-        { id: 2, title: isArabic ? "تطوير الموقع الإلكتروني" : "Website Development Update", date: "2025-12-05", content: isArabic ? "تم تحديث الموقع الإلكتروني لتسهيل وصول الطلاب وأولياء الأمور للمعلومات بسرعة." : "The website has been updated to help students and parents access information quickly.", image: img2 },
-        { id: 3, title: isArabic ? "إطلاق برنامج جديد للطلاب" : "New Student Program Launch", date: "2025-12-06", content: isArabic ? "تم إطلاق برنامج جديد لتطوير مهارات الطلاب في مجال التكنولوجيا." : "A new program has been launched to enhance students' skills in technology.", image: img3 },
-        { id: 4, title: isArabic ? "تعيين مدرسين جدد" : "New Teachers Appointed", date: "2025-12-07", content: isArabic ? "تم تعيين عدد من المدرسين المتخصصين لتقديم أفضل تعليم ممكن." : "Several specialized teachers have been appointed to provide the best education possible.", image: img4 },
-        { id: 5, title: isArabic ? "ورش عمل لتطوير الطلاب" : "Student Workshop Activities", date: "2025-12-08", content: isArabic ? "تم تنظيم ورش عمل للطلاب لتطوير مهاراتهم العملية." : "Workshops were organized for students to enhance their practical skills.", image: img5 },
-        { id: 6, title: isArabic ? "زيارة علمية للمصانع" : "Scientific Field Trip", date: "2025-12-09", content: isArabic ? "زار الطلاب المصانع للتعرف على تطبيقات التكنولوجيا في الواقع." : "Students visited factories to learn real-world applications of technology.", image: img6 },
-        { id: 7, title: isArabic ? "مسابقة البرمجة السنوية" : "Annual Coding Competition", date: "2025-12-10", content: isArabic ? "أقيمت مسابقة للبرمجة بين الطلاب لتعزيز مهاراتهم." : "A coding competition was held among students to enhance their skills.", image: img7 },
-        { id: 8, title: isArabic ? "تدريب المدرسين على تقنيات حديثة" : "Teacher Training Workshop", date: "2025-12-11", content: isArabic ? "تم عقد تدريب للمدرسين حول أحدث التقنيات التعليمية." : "Teachers were trained on the latest educational technologies.", image: img8 },
-        { id: 9, title: isArabic ? "افتتاح مختبر علوم جديد" : "New Science Lab Opened", date: "2025-12-12", content: isArabic ? "تم افتتاح مختبر علوم مجهز بالكامل لتطوير التجارب العملية للطلاب." : "A fully equipped science lab has been opened for hands-on experiments.", image: img9 },
-        { id: 10, title: isArabic ? "مسابقة الروبوتات" : "Robotics Competition", date: "2025-12-13", content: isArabic ? "شارك الطلاب في مسابقة الروبوتات لتعزيز الإبداع والتفكير الهندسي." : "Students participated in a robotics competition to enhance creativity and engineering thinking.", image: img10 },
-        { id: 11, title: isArabic ? "اليوم المفتوح للمدرسة" : "School Open Day", date: "2025-12-14", content: isArabic ? "استضافت المدرسة أول يوم مفتوح لتعريف الأهالي بالبرامج التعليمية." : "The school hosted its first open day to introduce parents to the educational programs.", image: img11 },
-        { id: 12, title: isArabic ? "المشاركة في معرض العلوم" : "Science Fair Participation", date: "2025-12-15", content: isArabic ? "شارك الطلاب في معرض العلوم المحلي لعرض مشاريعهم المبتكرة." : "Students participated in the local science fair to showcase their innovative projects.", image: img12 },
-        { id: 13, title: isArabic ? "حفل تكريم الطلاب المتفوقين" : "Top Students Award Ceremony", date: "2025-12-16", content: isArabic ? "تم تكريم الطلاب المتفوقين في جميع التخصصات." : "Top students across all fields were awarded and recognized.", image: img13 },
-        { id: 14, title: isArabic ? "تحديث المكتبة الرقمية" : "Digital Library Update", date: "2025-12-17", content: isArabic ? "تم تحديث المكتبة الرقمية لتشمل أحدث المراجع والكتب الإلكترونية." : "The digital library was updated with the latest references and e-books.", image: img14 },
-        { id: 15, title: isArabic ? "إطلاق تطبيق المدرسة" : "School App Launch", date: "2025-12-18", content: isArabic ? "تم إطلاق تطبيق الهاتف الذكي لتسهيل تواصل الطلاب والمدرسين." : "The mobile app has been launched to facilitate communication between students and teachers.", image: img15 },
-      ];
-      setNewsData(data);
-      setLoading(false);
-    }, 2000);
-  }, [isArabic]);
+useEffect(() => {
+  setLoading(true);
+  setTimeout(() => {
+    const data = [
+      {
+        id: 1,
+        title: isArabic ? "افتتاح 8 فروع جديدة لمدارس WE" : "Egypt Opens 8 New WE Applied Technology Schools",
+        date: "2025-07-29",
+        content: isArabic
+          ? "افتتحت الحكومة المصرية 8 فروع جديدة من مدارس WE للتكنولوجيا التطبيقية في محافظات متعددة ضمن شبكة تضم 27 مدرسة بهدف تعزيز المهارات الرقمية والتكنولوجية." 
+          : "Egypt has opened eight new WE Applied Technology Schools across several governorates as part of expanding the network to 27 schools, strengthening digital and technological skills education." ,
+        image: img1
+      },
+      {
+        id: 2,
+        title: isArabic ? "زيارة وزير الاتصالات لمدرسة WE بالمنصورة" : "Telecom Minister Visits WE School in Mansoura",
+        date: "2025-12-06",
+        content: isArabic
+          ? "قام وزير الاتصالات بتفقد مدرسة WE للتكنولوجيا التطبيقية بالمنصورة، ومتابعة التجهيزات التعليمية والبنية التحتية الحديثة بها." 
+          : "The Minister of Communications inspected the WE Applied Technology School in Mansoura, reviewing modern educational facilities and infrastructure." ,
+        image: img2
+      },
+      {
+        id: 3,
+        title: isArabic ? "مصر وإيطاليا توقعان بروتوكولات تعاون لتطوير المدارس التطبيقية" : "Egypt, Italy Sign Agreements to Expand Applied Tech Schools",
+        date: "2025-11-25",
+        content: isArabic
+          ? "وقعت الحكومة المصرية ممثلة في الجهات المعنية اتفاقيات تعاون مع الجانب الإيطالي لتأسيس أكثر من 89 مدرسة تكنولوجية تطبيقية جديدة." 
+          : "Egypt and Italy signed cooperation protocols to establish 89 new applied technology schools, marking a major push in technical education expansion." ,
+        image: img3
+      },
+      {
+        id: 4,
+        title: isArabic ? "انطلاق العام الدراسي الجديد بمدارس التكنولوجيا التطبيقية" : "New Academic Year Begins at Applied Technology Schools",
+        date: "2025-11-09",
+        content: isArabic
+          ? "بدأ العام الدراسي الجديد في المدارس التكنولوجية التطبيقية التي تقدم برامج متقدمة في عدة تخصصات تعليمية وفنية." 
+          : "The new academic year started at Applied Technology Schools offering advanced programs across multiple tech and applied disciplines." ,
+        image: img4
+      },
+      {
+        id: 5,
+        title: isArabic ? "تعليم تطبيقي: زيادة أعداد المدارس التطبيقية في مصر" : "Growth of Applied Technology Schools Across Egypt",
+        date: "2025-12-13",
+        content: isArabic
+          ? "تقرير رسمي يشير إلى توسع مدارس التكنولوجيا التطبيقية ليشمل زيادة عدد المدارس والفصول بما يدعم استراتيجية التعليم الفني." 
+          : "An official report highlights expansion of applied technology schools and classrooms in support of technical education strategy." ,
+        image: img5
+      },
+      {
+        id: 6,
+        title: isArabic ? "مؤتمر توقيع شراكات تعليمية جديدة" : "New Educational Partnerships Signed for WE Schools",
+        date: "2025-10-08",
+        content: isArabic
+          ? "وقعت الحكومة اتفاقية شراكة مع شركة HP لتدريب المعلمين والقادة على أحدث أساليب التعليم الرقمي في مدارس WE." 
+          : "A partnership was signed with HP to train teachers and leaders in digital education techniques across WE schools." ,
+        image: img6
+      },
+      {
+        id: 7,
+        title: isArabic ? "افتتاح مدرسة WE بمدينة نصر" : "WE Applied Technology School Opens in Nasr City",
+        date: "2025-08-09",
+        content: isArabic
+          ? "تم افتتاح فرع مدرسة WE للتكنولوجيا التطبيقية بمدينة نصر ضمن خطة التوسع لتوفير تعليم تكنولوجي متخصص للطلاب." 
+          : "A WE Applied Technology School branch was opened in Nasr City as part of expansion plan to provide specialized tech education." ,
+        image: img7
+      },
+      {
+        id: 8,
+        title: isArabic ? "انطلاقة معسكر تأهيلي للطلاب" : "WE Students Participate in Preparatory Camp",
+        date: "2025-08-20",
+        content: isArabic
+          ? "شارك طلاب مدارس WE في معسكر تأهيلي تفاعلي لتعزيز مهاراتهم العلمية والعملية." 
+          : "WE schools’ students took part in an interactive preparatory camp to boost their academic and practical skills." ,
+        image: img8
+      },
+      {
+        id: 9,
+        title: isArabic ? "تكريم الطلاب المتفوقين بمدارس WE" : "WE Schools Honor Top Performing Students",
+        date: "2025-09-10",
+        content: isArabic
+          ? "تم تكريم الطلاب المتفوقين في مدارس WE للتكنولوجيا التطبيقية خلال حفل خاص بحضور أولياء الأمور والقيادات التعليمية." 
+          : "Top-performing students at WE Applied Technology Schools were honored in a special ceremony attended by families and education leaders." ,
+        image: img9
+      },
+      {
+        id: 10,
+        title: isArabic ? "انطلاق مسابقة البرمجة السنوية" : "Annual Coding Competition Kicks Off",
+        date: "2025-10-15",
+        content: isArabic
+          ? "أقيمت مسابقة برمجة سنوية بين طلاب مدارس WE لتحفيز القدرات الإبداعية والتقنية لديهم." 
+          : "The annual coding competition was held among WE students to inspire creative and technical capabilities." ,
+        image: img10
+      },
+      {
+        id: 11,
+        title: isArabic ? "ورش عمل تدريبية للطلاب" : "Student Workshops Launched",
+        date: "2025-11-01",
+        content: isArabic
+          ? "نُظمت ورش عمل لتطوير المهارات العملية للطلاب في مجالات الاتصالات والتكنولوجيا." 
+          : "Workshops were organized to develop students’ practical skills in telecommunications and technology." ,
+        image: img11
+      },
+      {
+        id: 12,
+        title: isArabic ? "توريث مهارات القيادات التعليمية" : "Leadership Training for WE School Staff",
+        date: "2025-09-20",
+        content: isArabic
+          ? "قدّم برنامج تدريبي مكثف لقادة المدارس والمعلمين لتحسين جودة التعليم والتعلم." 
+          : "An intensive leadership training program was delivered for school leaders and teachers to improve teaching quality." ,
+        image: img12
+      },
+      {
+        id: 13,
+        title: isArabic ? "توسعة مختبرات العلم والتكنولوجيا" : "Science & Tech Labs Expanded at WE Schools",
+        date: "2025-10-25",
+        content: isArabic
+          ? "تم توسعة مختبرات العلوم والتكنولوجيا في عدد من فروع مدارس WE لتحسين بيئة التدريب العملي." 
+          : "Science and technology labs were expanded at several WE school branches to enhance hands-on training." ,
+        image: img13
+      },
+      {
+        id: 14,
+        title: isArabic ? "احتفال اليوم المفتوح للمدارس" : "WE School Open Day Event",
+        date: "2025-12-05",
+        content: isArabic
+          ? "أقامت مدارس WE يومًا مفتوحًا لعائلات الطلاب للتعرف على البرامج التعليمية والمناهج الحديثة." 
+          : "WE schools hosted an open day event for families to explore educational programs and modern curricula." ,
+        image: img14
+      },
+      {
+        id: 15,
+        title: isArabic ? "تحسين الشراكات الدولية لمدارس التكنولوجيا" : "International Collaboration Boost for WE Schools",
+        date: "2025-10-30",
+        content: isArabic
+          ? "أعلنت الوزارة عن تعزيز الشراكات الدولية مع مؤسسات تعليمية لدعم المناهج وتبادل الخبرات." 
+          : "The ministry announced enhanced international collaborations with educational institutions to support curricula and exchange expertise." ,
+        image: img15
+      },
+    ];
+    setNewsData(data);
+    setLoading(false);
+  }, 2000);
+}, [isArabic]);
+
 
   const totalPages = Math.ceil(newsData.length / newsPerPage);
   const indexOfLastNews = currentPage * newsPerPage;

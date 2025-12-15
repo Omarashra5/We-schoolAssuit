@@ -9,64 +9,30 @@ export default function About() {
   const isArabic = lang === "ar";
 
   return (
-    <div className={`about-container ${theme === "dark" ? "dark" : "light"}`} dir={isArabic ? "rtl" : "ltr"}>
-      <div className="about-wrapper">
-        
-        {/* العنوان الرئيسي */}
-        <h1 className="about-title">
-          {isArabic ? "عن مدرسة WE أسيوط الجديدة" : "About WE Assiut New School"}
-        </h1>
-        <p className="about-intro">
-          {isArabic
-            ? "مدرسة WE أسيوط الجديدة هي مؤسسة تعليمية متطورة تهدف لتخريج طلاب مبدعين في مجالات التكنولوجيا والبرمجة والهندسة الحديثة."
-            : "The new WE Assiut School is an advanced educational institution aimed at graduating creative students in technology, programming, and modern engineering fields."}
-        </p>
-
-        {/* قسم المعلومات والخريطة */}
-        <div className="about-content">
-          
-          {/* معلومات المدرسة */}
-          <div className="about-info">
-            <h2>{isArabic ? "معلومات المدرسة" : "School Info"}</h2>
-            <ul>
-              <li><strong>{isArabic ? "المدينة:" : "City:"}</strong> Assiut</li>
-              <li><strong>{isArabic ? "العنوان:" : "Address:"}</strong> New WE Assiut Campus, Assiut, Egypt</li>
-              <li><strong>{isArabic ? "تخصص المدرسة:" : "Specialty:"}</strong> تكنولوجيا وتطبيقات حديثة / Technology & Applied Sciences</li>
-              <li><strong>{isArabic ? "سنة التأسيس:" : "Established:"}</strong> 2022</li>
-              <li><strong>{isArabic ? "عدد الطلاب:" : "Students:"}</strong> 500+ {isArabic ? "طالب وطالبة" : "students"}</li>
-              <li><strong>{isArabic ? "البريد الإلكتروني:" : "Email:"}</strong> we@weassiut.edu.eg</li>
-              <li><strong>{isArabic ? "الهاتف:" : "Phone:"}</strong> +20 101 232 9975</li>
-            </ul>
-          </div>
-
-          {/* الخريطة */}
-          <div className="about-map">
-            <h2>{isArabic ? "موقعنا على الخريطة" : "Our Location"}</h2>
-            <iframe
-              title="WE Assiut New School Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.1234567890!2d31.184567!3d27.189876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14472abcde123456%3A0xabcdef1234567890!2sWE%20Assiut%20New%20School!5e0!3m2!1sar!2seg!4v1700000000000!5m2!1sar!2seg"
-              width="100%"
-              height="350"
-              style={{ border: 0, borderRadius: "20px" }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-
+   <>
+{/* ===== TIMELINE SECTION ===== */}
+<div className="about-timeline">
+  <h2>{isArabic ? "أهم إنجازاتنا" : "Our Milestones"}</h2>
+  <div className="timeline-wrapper">
+    {[
+      { year: "2022", title: isArabic ? "تأسيس المدرسة" : "School Founded", desc: isArabic ? "بدأت WE أسيوط الجديدة نشاطها التعليمي." : "WE Assiut New School started its educational journey." },
+      { year: "2023", title: isArabic ? "إطلاق أول برنامج تكنولوجي" : "Launched First Tech Program", desc: isArabic ? "تم إطلاق برنامج التكنولوجيا التطبيقية بنجاح." : "Successfully launched Applied Technology Program." },
+      { year: "2024", title: isArabic ? "توسيع الحرم الجامعي" : "Campus Expansion", desc: isArabic ? "تم افتتاح مباني جديدة وتجهيز مختبرات حديثة." : "New buildings and modern labs inaugurated." },
+      { year: "2026", title: isArabic ? "استقبال أول دفعة من الخريجين" : "First Graduating Class", desc: isArabic ? "خرجت أول دفعة من طلاب المدرسة المتميزين." : "First batch of outstanding students graduated." },
+    ].map((item, idx) => (
+      <div key={idx} className="timeline-item">
+        <div className="timeline-circle" />
+        <div className="timeline-content">
+          <span className="timeline-year">{item.year}</span>
+          <h3 className="timeline-title">{item.title}</h3>
+          <p className="timeline-desc">{item.desc}</p>
         </div>
-
-        {/* قسم الرسالة والرؤية */}
-        <div className="about-mission">
-          <h2>{isArabic ? "رسالتنا ورؤيتنا" : "Our Mission & Vision"}</h2>
-          <p>
-            {isArabic
-              ? "نهدف إلى تخريج جيل من الطلاب المبدعين والمبتكرين القادرين على مواجهة تحديات العصر الرقمي، من خلال تعليم عملي وتجارب مبتكرة وبيئة تعليمية محفزة ومجهزة بأحدث التقنيات."
-              : "We aim to graduate a generation of creative and innovative students capable of facing the challenges of the digital era, through hands-on learning, innovative experiences, and a fully-equipped modern educational environment."}
-          </p>
-        </div>
-
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
+
+   </>
   );
 }

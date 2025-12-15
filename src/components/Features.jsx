@@ -9,6 +9,13 @@ export default function InfoSection() {
     const { lang } = useContext(LanguageContext);
     const { theme } = useContext(ThemeContext);
     const [faqStep, setFaqStep] = useState(0); // 0 -> first 5, 1 -> next 5, 2 -> last 5
+    const [openFaqs, setOpenFaqs] = useState({});
+    const toggleFaq = (index) => {
+        setOpenFaqs(prev => ({
+            ...prev,
+            [index]: !prev[index]
+        }));
+    };
 
     const text = {
         en: {
@@ -62,6 +69,7 @@ export default function InfoSection() {
             ]
         }
     };
+    const faqs = text[lang].faqs; // هتخليه هنا فوق قبل JSX
 
     const bgColor = theme === "dark" ? "#111111ff" : "#f8f9fa";
     const textColor = theme === "dark" ? "text-white" : "text-dark";
@@ -72,45 +80,35 @@ export default function InfoSection() {
     const handleToggleFaq = () => {
         setFaqStep((prev) => (prev + 1) % 3); // 0 -> 1 -> 2 -> 0
     };
+    const cards = text[lang]?.cards || [];
 
     return (
-        <section style={{ backgroundColor: bgColor, padding: "4rem 0", transition: "all 0.5s" }}>
+        <section style={{ backgroundColor: bgColor, padding: "5rem 0", transition: "all 0.5s" }}>
             {/* Cards Section */}
-            <h1 className="text-center pb-4">{lang === "ar" ? "الاقسام" : "Departments"}<i className="fa-solid fa-building" />
-</h1>
-            <div className="container mb-5">
+            <h1 className={`text-center mb-5 ${textColor}`} style={{ fontWeight: 800, fontSize: "2.8rem" }}>
+                {lang === "ar" ? "الأقسام" : "Departments"} <i className="fa-solid fa-building"></i>
+            </h1>
+            <div className="container">
                 <div className="row g-4">
-                    {text[lang].cards.map((card, idx) => (
+                    {cards.map((card, idx) => (
                         <div key={idx} className="col-md-4">
                             <div
-                                className={`card h-100 shadow-lg ${theme === "dark" ? "bg-dark text-white" : "bg-white text-dark"}`}
+                                className={`card h-100 position-relative overflow-hidden ${theme === "dark" ? "bg-dark text-white" : "bg-white text-dark"}`}
                                 style={{
-                                    borderRadius: "20px",
-                                    overflow: "hidden",
-                                    transition: "transform 0.3s, box-shadow 0.3s",
+                                    borderRadius: "25px",
                                     cursor: "pointer",
+                                    transition: "all 0.4s",
+                                    boxShadow: theme === "dark" ? "0 10px 30px rgba(255,255,255,0.05)" : "0 10px 30px rgba(0,0,0,0.1)"
                                 }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = "translateY(-10px)";
-                                    e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.3)";
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = "translateY(0)";
-                                    e.currentTarget.style.boxShadow = "0 5px 15px rgba(0,0,0,0.1)";
-                                }}
+                                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-10px) scale(1.03)"; e.currentTarget.style.boxShadow = theme === "dark" ? "0 25px 50px rgba(255,255,255,0.1)" : "0 25px 50px rgba(0,0,0,0.2)"; }}
+                                onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = theme === "dark" ? "0 10px 30px rgba(255,255,255,0.05)" : "0 10px 30px rgba(0,0,0,0.1)"; }}
                             >
-                                <img
-                                    src={card.img}
-                                    className="card-img-top"
-                                    alt={card.title}
-                                    style={{
-                                        height: "220px",
-                                        objectFit: "cover",
-                                        borderBottom: theme === "dark" ? "2px solid #555" : "2px solid #eee",
-                                    }}
-                                />
+                                <div style={{ overflow: "hidden", borderRadius: "25px 25px 0 0", position: "relative" }}>
+                                    <img src={card.img} alt={card.title} className="card-img-top" style={{ height: "220px", objectFit: "cover", transition: "transform 0.5s" }} />
+                                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.2))" }}></div>
+                                </div>
                                 <div className="card-body d-flex flex-column">
-                                    <h5 className="card-title">{card.title}</h5>
+                                    <h5 className="card-title" style={{ fontWeight: 700, fontSize: "1.5rem" }}>{card.title}</h5>
                                     <p className="card-text flex-grow-1">{card.description}</p>
                                 </div>
                             </div>
@@ -118,44 +116,80 @@ export default function InfoSection() {
                     ))}
                 </div>
             </div>
-            {/* Accordion Section */}
-            <div className="container">
-                <h3 className={`mb-3 ${textColor}`}>{text[lang].faqTitle}<i className="fa-solid fa-question" />
-</h3>
-                <div className="accordion" id="faqAccordion">
-                    {faqsToShow.map((faq, idx) => (
-                        <div key={idx} className="accordion-item mt-2">
-                            <h2 className="accordion-header" id={`heading${faqStep * 5 + idx}`}>
-                                <button
-                                    className={`accordion-button ${theme === "light" ? "bg-primary text-white" : ""}`}
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target={`#collapse${faqStep * 5 + idx}`}
-                                    aria-expanded={idx === 0 ? "true" : "false"}
-                                    aria-controls={`collapse${faqStep * 5 + idx}`}
+
+            {/* FAQ Section */}
+            <div className="container mt-5">
+                <h3 className={`mb-4 ${textColor}`} style={{ fontWeight: 700 }}>
+                    {text[lang]?.faqTitle} <i className="fa-solid fa-question"></i>
+                </h3>
+                <div>
+                    {faqsToShow.map((faq, idx) => {
+                        const realIndex = faqStep * 5 + idx;
+                        const isOpen = openFaqs[realIndex] || false;
+                        return (
+                            <div key={idx} style={{ marginBottom: "1rem", borderRadius: "12px", overflow: "hidden", boxShadow: theme === "dark" ? "0 5px 20px rgba(255,255,255,0.05)" : "0 5px 20px rgba(0,0,0,0.1)" }}>
+                                <div
+                                    onClick={() => toggleFaq(realIndex)}
+                                    style={{
+                                        cursor: "pointer",
+                                        padding: "1rem 1.5rem",
+                                        background: theme === "dark" ? "#1a1a2e" : "#e3f2fd",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        fontWeight: 600,
+                                        transition: "all 0.3s",
+                                    }}
                                 >
-                                    {faq.question}
-                                </button>
-                            </h2>
-                            <div
-                                id={`collapse${faqStep * 5 + idx}`}
-                                className={`accordion-collapse collapse ${idx === 0 ? "show" : ""}`}
-                                aria-labelledby={`heading${faqStep * 5 + idx}`}
-                                data-bs-parent="#faqAccordion"
-                            >
-                                <div className={`accordion-body ${theme === "dark" ? "bg-dark text-white" : ""}`}>
+                                    <span>{faq.question}</span>
+                                    <i className={`fa-solid fa-chevron-down transition-transform ${isOpen ? 'rotate-180' : ''}`}></i>
+                                </div>
+                                <div style={{
+                                    maxHeight: isOpen ? "500px" : "0",
+                                    overflow: "hidden",
+                                    transition: "max-height 0.5s ease",
+                                    padding: isOpen ? "1rem 1.5rem" : "0 1.5rem",
+                                    background: theme === "dark" ? "#11111f" : "#fefefe"
+                                }}>
                                     {faq.answer}
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
-                <div className="text-center mt-3">
-                    <button className="btn btn-success" onClick={handleToggleFaq}>
-                        {faqStep < 2 ? (lang === "ar" ? "عرض المزيد" : "See More") : (lang === "ar" ? "عرض اقل" : "See Less")}
-                    </button>
-                </div>
+                {faqs.length > 5 && (
+                    <div className="text-center mt-4">
+                        <button
+                            onClick={handleToggleFaq}
+
+                            style={{
+                                background: "linear-gradient(135deg,#8b00ff,#c473ff)",
+                                color: "#fff",
+                                padding: "0.6rem 1.5rem",
+                                fontWeight: 700,
+                                borderRadius: "12px",
+                                border: "none",
+                                cursor: "pointer",
+                                transition: "all 0.3s",
+                            }}
+                            onMouseEnter={e => e.currentTarget.style.transform = "scale(1.1)"}
+                            onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+                        >
+                            {faqStep < Math.ceil(faqs.length / 5) - 1 ? (lang === "ar" ? "عرض المزيد" : "See More") : (lang === "ar" ? "عرض أقل" : "See Less")}
+                        </button>
+                    </div>
+                )}
             </div>
+
+            {/* Styles */}
+            <style>{`
+        .transition-transform {
+          transition: transform 0.3s;
+        }
+        .rotate-180 {
+          transform: rotate(180deg);
+        }
+      `}</style>
         </section>
     );
 }

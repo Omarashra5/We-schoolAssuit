@@ -1,75 +1,159 @@
+:root {
+  --primary: #6c63ff;
+  --secondary: #00f2ff;
+
+  --text-dark: #0f172a;
+  --text-light: #ffffff;
+  --text-muted-dark: #6b7280;
+  --text-muted-light: rgba(255,255,255,0.6);
+
+  --bg-dark: #050814;
+  --bg-light: #f5f7ff;
+}
+
+/* ================= CONTAINER ================= */
 .login-container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
   padding: 2rem;
+  background: radial-gradient(circle at top, #1e2252, var(--bg-dark) 70%);
 }
 
+@media (prefers-color-scheme: light) {
+  .login-container {
+    background: radial-gradient(circle at top, #dfe3ff, var(--bg-light) 70%);
+  }
+}
+
+/* ================= CARD ================= */
 .login-card {
-  display: flex;
-  background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  overflow: hidden;
-  max-width: 700px;
   width: 100%;
+  max-width: 820px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #0b1023;
+  color: var(--text-light);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6);
 }
 
-.login-form {
-  flex: 1;
-  padding: 2rem;
+@media (prefers-color-scheme: light) {
+  .login-card {
+    background: #ffffff;
+    color: var(--text-dark);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  }
 }
 
+/* ================= LOGO ================= */
 .login-logo {
-  flex: 1;
-  background: url('../components/images/logo.png') no-repeat center;
-  background-size: contain;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-logo::after {
+  content: "";
+  width: 220px;
+  height: 220px;
+  background: url("../components/images/logo.png") center / contain no-repeat;
+}
+
+/* ================= FORM ================= */
+.login-form {
+  padding: 3rem 2.5rem;
 }
 
 .login-form h2 {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* ================= INPUTS ================= */
 .login-form form {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
-.input-group {
+.login-form .input-group {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
 }
 
-.input-group input {
-  flex: 1;
-  padding: 0.6rem 0.8rem;
+/* INPUT – ثابت ومش بيكبر */
+.login-form .input-group input {
+  height: 42px;                /* ⬅️ هايت نهائي */
+  padding: 0 0.9rem;           /* أفقي فقط */
   border-radius: 12px;
-  border: 1px solid #ccc;
-  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.2);
+  background-color: transparent;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  transition: 0.25s ease;
 }
 
-.input-group input:focus {
+.login-form .input-group input::placeholder {
+  color: var(--text-muted-light);
+}
+
+.login-form .input-group input:focus {
   outline: none;
-  border-color: #3240ff;
-  box-shadow: 0 0 8px rgba(50,64,255,0.4);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.25);
 }
 
+/* Light Inputs */
+@media (prefers-color-scheme: light) {
+  .login-form .input-group input {
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    color: var(--text-dark);
+  }
+
+  .login-form .input-group input::placeholder {
+    color: var(--text-muted-dark);
+  }
+}
+
+/* ================= BUTTON ================= */
 .login-form button {
-  padding: 0.7rem 2rem;
+  margin-top: 1rem;
+  height: 44px;
   border-radius: 14px;
   border: none;
-  background: linear-gradient(135deg,#3240ff,#174dff);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1px;
   color: #fff;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
 }
 
 .login-form button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(50,64,255,0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(108,99,255,0.6);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 900px) {
+  .login-card {
+    grid-template-columns: 1fr;
+  }
+
+  .login-logo {
+    height: 200px;
+  }
+
+  .login-form {
+    padding: 2rem;
+  }
 }

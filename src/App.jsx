@@ -14,6 +14,7 @@ import About from "./components/About";
 import News from "./components/News";
 import FinelPage from "./components/FinelPage";
 import Programs from "./components/Programs";
+import Ways from "./components/Ways";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -34,10 +35,11 @@ export default function App() {
               element={
                 <>
                   <Main />
+                  <FinelPage />
                   <Features />
                   <CarouselComponent />
+                  <Ways/>
                   <OurPartners />
-                  <FinelPage />
                 </>
               }
             />
