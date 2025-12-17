@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../context/LanguageContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import logo from "../components/images/logo.png";
-import heroVideo from "../assets/video/hero.mp4";
 
 export default function Main() {
   const { lang } = useContext(LanguageContext);
@@ -61,7 +60,7 @@ export default function Main() {
 
       {/* VIDEO BACKGROUND */}
       <video className="hero-video" autoPlay muted loop playsInline>
-        <source src={heroVideo} type="video/mp4" />
+        <source src="https://res.cloudinary.com/dfjxtpdfo/video/upload/v1765988991/hero_c1fsbb.mp4" type="video/mp4" />
       </video>
 
       {/* OVERLAY */}

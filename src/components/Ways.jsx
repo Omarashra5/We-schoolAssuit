@@ -2,58 +2,88 @@ import { useContext, useState } from "react";
 import { LanguageContext } from "../context/LanguageContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 
-const videosData = [
-  { id: 1, name: "يوسف اشرف", specialty: "IT / تكنولوجيا المعلومات", src: "./video/vid1.mp4" },
-  { id: 2, name: "ميار هشام", specialty: "برمجة / Programming", src: "/public/video/vid2.mp4" },
-  { id: 3, name: "شهد ياسين", specialty: "برمجة / Programming", src: "/public/video/vid3.mp4" },
-  { id: 4, name: "يارا خالد", specialty: "اتصالات / Telecommunications" , src: "/public/video/vid4.mp4" },
-  { id: 5, name: "تقي محمد", specialty:  "برمجة / Programming", src: "/public/video/vid5.mp4" },
-  { id: 6, name: "بلال سعد ", specialty: "IT / تكنولوجيا المعلومات", src: "/public/video/vid6.mp4" },
+const featuresData = [
+  {
+    id: 1,
+    title: { en: "Fast Performance", ar: "أداء سريع" },
+    description: { en: "Optimized for speed and efficiency.", ar: "محسّن للسرعة والكفاءة" },
+    icon: "⚡"
+  },
+  {
+    id: 2,
+    title: { en: "Secure", ar: "آمن" },
+    description: { en: "Top-notch security for your data.", ar: "أعلى مستويات الأمان لبياناتك" },
+    icon: "🔒"
+  },
+  {
+    id: 3,
+    title: { en: "Cloud Sync", ar: "مزامنة سحابية" },
+    description: { en: "Access your data anywhere, anytime.", ar: "الوصول لبياناتك في أي وقت ومن أي مكان" },
+    icon: "☁️"
+  },
+  {
+    id: 4,
+    title: { en: "AI Powered", ar: "مدعوم بالذكاء الاصطناعي" },
+    description: { en: "Smart features to boost productivity.", ar: "ميزات ذكية لتعزيز الإنتاجية" },
+    icon: "🤖"
+  },
+  {
+    id: 5,
+    title: { en: "Responsive Design", ar: "تصميم متجاوب" },
+    description: { en: "Looks perfect on any device.", ar: "يظهر بشكل مثالي على أي جهاز" },
+    icon: "📱"
+  },
 ];
 
-export default function StudentVideos() {
+export default function FeaturesShowcase() {
   const { lang } = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const isArabic = lang === "ar";
 
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [activeFeature, setActiveFeature] = useState(null);
 
   return (
-    <section className="videos-section" dir={isArabic ? "rtl" : "ltr"}>
+    <section className="features-section" dir={isArabic ? "rtl" : "ltr"}>
       <div className="container">
         <h2 className="section-title">
-          {isArabic ? "رحلة شبابنا من أرض الواقع" : "Our Students' Real Journey"}
+          {isArabic ? "مميزاتنا" : "Our Features"}
         </h2>
         <p className="section-subtitle">
           {isArabic
-            ? "نقدم لمحة عن حياة طلاب مدارس WE من خلال فيديوهات حقيقية."
-            : "Get a real glimpse into WE students' lives through authentic videos."}
+            ? "استكشف مميزاتنا بطريقة تفاعلية وجذابة."
+            : "Explore our features interactively and elegantly."}
         </p>
 
-        <div className="videos-grid">
-          {videosData.map((video) => (
-            <div key={video.id} className="video-card" onClick={() => setSelectedVideo(video)}>
-              <video src={video.src} muted loop className="card-video" />
-              <div className="overlay">
-                <h3>{`${video.name}`}</h3>
-                <p>{video.specialty}</p>
+        <div className="features-grid">
+          {featuresData.map((feature) => (
+            <div
+              key={feature.id}
+              className="feature-card"
+              onClick={() => setActiveFeature(feature)}
+            >
+              <div className="feature-card-inner">
+                <div className="feature-front">
+                  <div className="feature-icon">{feature.icon}</div>
+                  <h3>{isArabic ? feature.title.ar : feature.title.en}</h3>
+                </div>
+                <div className="feature-back">
+                  <p>{isArabic ? feature.description.ar : feature.description.en}</p>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
-      {selectedVideo && (
-        <div className="lightbox" onClick={() => setSelectedVideo(null)}>
-          <video src={selectedVideo.src} controls autoPlay className="lightbox-video" />
-          <p className="lightbox-title">{selectedVideo.name}</p>
-          <p className="lightbox-specialty">{selectedVideo.specialty}</p>
+      {activeFeature && (
+        <div className="lightbox" onClick={() => setActiveFeature(null)}>
+          <h2>{isArabic ? activeFeature.title.ar : activeFeature.title.en}</h2>
+          <p>{isArabic ? activeFeature.description.ar : activeFeature.description.en}</p>
         </div>
       )}
 
       <style>{`
-        .videos-section {
+        .features-section {
           padding: 6rem 2rem;
           background: ${theme === "dark" ? "#111" : "#f5f5f5"};
           color: ${theme === "dark" ? "#fff" : "#111"};
@@ -80,44 +110,63 @@ export default function StudentVideos() {
           color: ${theme === "dark" ? "#ccc" : "#555"};
         }
 
-        .videos-grid {
+        .features-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           gap: 2rem;
         }
 
-        .video-card {
-          position: relative;
+        .feature-card {
+          perspective: 1000px;
           cursor: pointer;
+        }
+
+        .feature-card-inner {
+          position: relative;
+          width: 100%;
+          height: 250px;
+          text-align: center;
+          transition: transform 0.6s;
+          transform-style: preserve-3d;
+        }
+
+        .feature-card:hover .feature-card-inner {
+          transform: rotateY(180deg);
+        }
+
+        .feature-front,
+        .feature-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
           border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-          transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .video-card:hover { transform: scale(1.05); box-shadow: 0 25px 60px rgba(0,0,0,0.5); }
-
-        .card-video { width: 100%; height: 180px; object-fit: cover; display: block; }
-
-        .overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0,0,0,0.5);
-          color: #fff;
-          opacity: 0;
           display: flex;
-          flex-direction: column;
           justify-content: center;
           align-items: center;
-          text-align: center;
+          flex-direction: column;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
           padding: 1rem;
-          transition: opacity 0.3s;
         }
 
-        .video-card:hover .overlay { opacity: 1; }
+        .feature-front {
+          background: ${theme === "dark" ? "#222" : "#fff"};
+          font-size: 1.2rem;
+          transition: background 0.3s;
+        }
 
-        .overlay h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-        .overlay p { font-size: 1rem; font-weight: 500; }
+        .feature-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .feature-back {
+          background: linear-gradient(135deg, #8b00ff, #c473ff);
+          color: #fff;
+          transform: rotateY(180deg);
+          font-size: 1rem;
+        }
 
         /* Lightbox */
         .lightbox {
@@ -131,29 +180,20 @@ export default function StudentVideos() {
           z-index: 1000;
           cursor: zoom-out;
           padding: 2rem;
-        }
-
-        .lightbox-video {
-          max-width: 90%;
-          max-height: 70vh;
-          border-radius: 16px;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-        }
-
-        .lightbox-title {
-          margin-top: 1rem;
-          font-size: 1.5rem;
-          font-weight: 700;
           color: #fff;
         }
 
-        .lightbox-specialty {
+        .lightbox h2 {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .lightbox p {
           font-size: 1.2rem;
-          color: #ccc;
         }
 
         @media (max-width:768px) {
-          .card-video { height: 150px; }
+          .feature-card-inner { height: 220px; }
         }
       `}</style>
     </section>

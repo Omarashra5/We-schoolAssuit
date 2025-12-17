@@ -94,16 +94,16 @@ export default function Profile({ user }) {
             <h2 style={{ textAlign: "center", fontSize: "2rem" }}>{user.name}</h2>
 
             <p style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              🏫 <strong>{isArabic ? "المدرسة:" : "School:"}</strong> {user.school}
+              <strong>{isArabic ? "المدرسة:" : "School:"}</strong> {user.school}
             </p>
             <p style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              📍 <strong>{isArabic ? "العنوان:" : "Address:"}</strong> {user.address}
+              <strong>{isArabic ? "العنوان:" : "Address:"}</strong> {user.address}
             </p>
             <p style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              📞 <strong>{isArabic ? "رقم الهاتف:" : "Phone:"}</strong> {user.phone}
+              <strong>{isArabic ? "رقم الهاتف:" : "Phone:"}</strong> {user.phone}
             </p>
             <p style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              ✉️ <strong>Email:</strong> {user.email}
+              <strong>Email:</strong> {user.email}
             </p>
           </div>
         </div>
