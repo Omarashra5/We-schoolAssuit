@@ -83,7 +83,7 @@ export default function InfoSection() {
     const cards = text[lang]?.cards || [];
 
     return (
-        <section style={{ backgroundColor: bgColor, padding: "5rem 0", transition: "all 0.5s" }}>
+        <section dir={lang==='ar'?'rtl':'ltr'} style={{ backgroundColor: bgColor, padding: "5rem 0", transition: "all 0.5s" }}>
             {/* Cards Section */}
             <h1 className={`text-center mb-5 ${textColor}`} style={{ fontWeight: 800, fontSize: "2.8rem" }}>
                 {lang === "ar" ? "الأقسام" : "Departments"} <i className="fa-solid fa-building"></i>

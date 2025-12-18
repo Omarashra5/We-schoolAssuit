@@ -60,7 +60,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: linear-gradient(135deg,#8b00ff,#c473ff);
+  background: linear-gradient(135deg,#ff0000,#c473ff);
   border: 4px solid #fff;
   position: absolute;
   top: 0;
@@ -95,12 +95,12 @@
 
 .timeline-item:hover .timeline-content {
   transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 20px 50px rgba(140,0,255,0.6);
+  box-shadow: 0 20px 50px rgb(111, 0, 255);
 }
 
 .timeline-year {
   font-weight: 900;
-  color: #8b00ff;
+  color: #ffffff;
   font-size: 1.3rem;
   display: block;
   margin-bottom: 0.5rem;

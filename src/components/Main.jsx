@@ -12,12 +12,12 @@ export default function Main() {
     en: {
       title: "WE Applied Technology School",
       subtitle: "Building the future of technology in",
-      action: "Explore Programs",
+      action: "Content",
     },
     ar: {
       title: "مدرسة WE للتكنولوجيا التطبيقية",
       subtitle: "نصنع مستقبل التكنولوجيا في",
-      action: "استعرض البرامج",
+      action: "المحتوي",
     },
   };
 
@@ -96,14 +96,6 @@ export default function Main() {
           </div>
         </div>
       </div>
-
-      {/* WAVES */}
-      <div className="wave">
-        <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
-          <path d="M0,64 C360,192 1080,0 1440,64 L1440,150 L0,150 Z" fill="rgba(128, 0, 255, 0.4)" />
-        </svg>
-      </div>
-
       <style>{`
         .hero {
           position: relative;

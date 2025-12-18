@@ -2,70 +2,68 @@
   --primary: #6c63ff;
   --secondary: #00f2ff;
 
+  --dark-bg: #050814;
+  --dark-card: #0b1023;
+  --light-bg: #f4f6ff;
+
   --text-dark: #0f172a;
   --text-light: #ffffff;
-  --text-muted-dark: #6b7280;
-  --text-muted-light: rgba(255,255,255,0.6);
-
-  --bg-dark: #050814;
-  --bg-light: #f5f7ff;
+  --muted-dark: #6b7280;
+  --muted-light: rgba(255,255,255,0.6);
 }
 
-/* ================= CONTAINER ================= */
+/* ===== CONTAINER ===== */
 .login-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  background: radial-gradient(circle at top, #1e2252, var(--bg-dark) 70%);
+  background: radial-gradient(circle at top, #1e2252, var(--dark-bg));
 }
 
-@media (prefers-color-scheme: light) {
-  .login-container {
-    background: radial-gradient(circle at top, #dfe3ff, var(--bg-light) 70%);
-  }
+.login-container[data-theme="light"] {
+  background: radial-gradient(circle at top, #e3e6ff, var(--light-bg));
 }
 
-/* ================= CARD ================= */
+/* ===== CARD ===== */
 .login-card {
-  width: 100%;
-  max-width: 820px;
+  width: 900px;
+  max-width: 95%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-radius: 24px;
+  grid-template-columns: 1fr 1.2fr;
+  border-radius: 28px;
   overflow: hidden;
-  background: #0b1023;
-  color: var(--text-light);
-  box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+  background: var(--dark-card);
+  box-shadow: 0 40px 90px rgba(0,0,0,0.6);
 }
 
-@media (prefers-color-scheme: light) {
-  .login-card {
-    background: #ffffff;
-    color: var(--text-dark);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-  }
+.login-container[data-theme="light"] .login-card {
+  background: #ffffff;
 }
 
-/* ================= LOGO ================= */
+/* ===== LOGO ===== */
 .login-logo {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .login-logo::after {
   content: "";
-  width: 220px;
-  height: 220px;
+  width: 180px;
+  height: 180px;
   background: url("../components/images/logo.png") center / contain no-repeat;
 }
 
-/* ================= FORM ================= */
+/* ===== FORM ===== */
 .login-form {
-  padding: 3rem 2.5rem;
+  padding: 3rem;
+  color: var(--text-light);
+}
+
+.login-container[data-theme="light"] .login-form {
+  color: var(--text-dark);
 }
 
 .login-form h2 {
@@ -77,83 +75,113 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* ================= INPUTS ================= */
+/* ===== FORM LAYOUT ===== */
 .login-form form {
-  display: grid;
-  gap: 1rem;
-}
-
-.login-form .input-group {
   display: flex;
   flex-direction: column;
+  gap: 1.4rem;
 }
 
-/* INPUT – ثابت ومش بيكبر */
-.login-form .input-group input {
-  height: 42px;                /* ⬅️ هايت نهائي */
-  padding: 0 0.9rem;           /* أفقي فقط */
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background-color: transparent;
+/* ===== FIELD (WRAPPER خفيف) ===== */
+.field {
+  position: relative;
+}
+
+/* ===== INPUT ===== */
+.login-input {
+  width: 100%;
+  height: 56px;
+  padding: 1.4rem 1.2rem 0.4rem;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.07);
   color: var(--text-light);
-  font-size: 0.9rem;
   transition: 0.25s ease;
 }
 
-.login-form .input-group input::placeholder {
-  color: var(--text-muted-light);
+.login-input::placeholder {
+  color: transparent;
 }
 
-.login-form .input-group input:focus {
+.login-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108,99,255,0.25);
+  box-shadow: 0 0 0 4px rgba(11, 0, 216, 0.35);
+  background: rgba(255,255,255,0.1);
 }
 
-/* Light Inputs */
-@media (prefers-color-scheme: light) {
-  .login-form .input-group input {
-    background-color: #ffffff;
-    border: 1px solid #d1d5db;
-    color: var(--text-dark);
-  }
-
-  .login-form .input-group input::placeholder {
-    color: var(--text-muted-dark);
-  }
+/* ===== LABEL (جوه الانبوت) ===== */
+.field label {
+  position: absolute;
+  top: 50%;
+  left: 1.2rem;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  color: var(--muted-light);
+  pointer-events: none;
+  transition: 0.25s ease;
 }
 
-/* ================= BUTTON ================= */
-.login-form button {
-  margin-top: 1rem;
-  height: 44px;
-  border-radius: 14px;
+/* لما ادوس أو اكتب */
+.login-input:focus + label,
+.login-input:not(:placeholder-shown) + label {
+  top: 8px;
+  font-size: 0.7rem;
+  color: var(--secondary);
+}
+
+/* ===== LIGHT MODE INPUT ===== */
+.login-container[data-theme="light"] .login-input {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: var(--text-dark);
+}
+
+.login-container[data-theme="light"] .field label {
+  color: var(--muted-dark);
+}
+
+.login-container[data-theme="light"]
+.login-input:focus + label,
+.login-container[data-theme="light"]
+.login-input:not(:placeholder-shown) + label {
+  color: var(--primary);
+}
+
+/* ===== BUTTON ===== */
+button {
+  margin-top: 0.5rem;
+  height: 52px;
+  border-radius: 16px;
   border: none;
   font-size: 1rem;
   font-weight: 800;
-  letter-spacing: 1px;
-  color: #fff;
+  color: #ffffff;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
-.login-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(108,99,255,0.6);
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(108,99,255,0.6);
 }
 
-/* ================= MOBILE ================= */
+/* ===== STATUS ===== */
+.status-msg {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 900px) {
   .login-card {
     grid-template-columns: 1fr;
   }
 
   .login-logo {
-    height: 200px;
-  }
-
-  .login-form {
-    padding: 2rem;
+    height: 220px;
   }
 }

@@ -2,9 +2,18 @@ import { useState, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { LanguageContext } from "../context/LanguageContext.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faSchool, faMapMarkerAlt, faPhone, faEnvelope, faLock, faImage, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faSchool,
+  faMapMarkerAlt,
+  faPhone,
+  faEnvelope,
+  faLock,
+  faUserTie,
+  faImage
+} from "@fortawesome/free-solid-svg-icons";
 import Loader from "./Loader";
-import './RegisterForm.css';
+import "./RegisterForm.css";
 
 export default function Register({ onRegister }) {
   const { theme } = useContext(ThemeContext);
@@ -13,6 +22,8 @@ export default function Register({ onRegister }) {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+
   const [formData, setFormData] = useState({
     name: "",
     role: "",
@@ -22,13 +33,19 @@ export default function Register({ onRegister }) {
     email: "",
     password: "",
     confirmPassword: "",
-    schoolLogo: null
+    image: null
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     if (files) {
-      setFormData({ ...formData, [name]: files[0] });
+      const file = files[0];
+      setFormData({ ...formData, image: file });
+
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result);
+      reader.readAsDataURL(file);
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -36,107 +53,102 @@ export default function Register({ onRegister }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage("");
     setLoading(true);
+    setMessage("");
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    if (formData.password !== formData.confirmPassword) {
+      setMessage(isArabic ? "كلمة المرور غير متطابقة" : "Passwords do not match");
+      setLoading(false);
+      return;
+    }
 
     setTimeout(() => {
-      if (users.some(u => u.email === formData.email)) {
-        setMessage(isArabic ? "البريد الإلكتروني مستخدم بالفعل" : "Email already registered");
-        setLoading(false);
-        return;
-      }
-      if (formData.password !== formData.confirmPassword) {
-        setMessage(isArabic ? "كلمة المرور غير متطابقة" : "Passwords do not match");
-        setLoading(false);
-        return;
-      }
+      onRegister({
+        ...formData,
+        image: imagePreview
+      });
 
-      // تحويل الصورة إلى Base64 قبل التخزين
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newUser = {
-          ...formData,
-          image: formData.schoolLogo ? reader.result : "https://via.placeholder.com/150"
-        };
-        users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users));
-        setMessage(isArabic ? "تم تسجيل الحساب بنجاح!" : "Account registered successfully!");
-        onRegister(newUser);
-        setLoading(false);
-      };
-
-      if (formData.schoolLogo) {
-        reader.readAsDataURL(formData.schoolLogo);
-      } else {
-        reader.onloadend();
-      }
-
-    }, 1500);
+      setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
+      setLoading(false);
+    }, 1200);
   };
 
   return (
-    <div className="register-container" style={{ background: theme === "dark" ? "#111" : "#f0f2f5", color: theme === 'dark' ? 'black' : 'black' }} dir={isArabic ? "rtl" : "ltr"}>
+    <div className="register-container" data-theme={theme} dir={isArabic ? "rtl" : "ltr"}>
       {loading && <Loader />}
+
       <div className="register-card">
         <div className="register-logo"></div>
+
         <div className="register-form">
           <h2>{isArabic ? "تسجيل حساب جديد" : "Register New Account"}</h2>
+
           <form onSubmit={handleSubmit}>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faUser} />
-              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={isArabic ? "الاسم بالكامل" : "Full Name"} required />
+              <input name="name" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "الاسم بالكامل" : "Full Name"}</label>
             </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faUserTie} />
-              <select name="role" value={formData.role} onChange={handleChange} required>
-                <option value="">{isArabic ? "اختر الدور" : "Select Role"}</option>
-                <option value="student">{isArabic ? "طالب" : "Student"}</option>
-                <option value="teacher">{isArabic ? "مدرس" : "Teacher"}</option>
-                <option value="admin">{isArabic ? "أدمن" : "Admin"}</option>
+              <select name="role" onChange={handleChange} required>
+                <option value="student" style={{ color:'black' }}>{isArabic ? "طالب" : "Student"}</option>
+                <option value="teacher" style={{ color:'black' }}>{isArabic ? "مدرس" : "Teacher"}</option>
               </select>
             </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faSchool} />
-              <select name="school" value={formData.school} onChange={handleChange} required>
-                <option value="">{isArabic ? "اختر المدرسة" : "Select School"}</option>
-                <option value="WE Assiut">{isArabic ? "أسيوط" : "WE Assiut"}</option>
-                <option value="Al Minya">{isArabic ? "المنيا" : "Al Minya"}</option>
-                <option value="Al Tukh">{isArabic ? "الطوخ" : "Al Tukh"}</option>
-                <option value="Al Nasr">{isArabic ? "النصر" : "Al Nasr"}</option>
-                <option value="Alexandria">{isArabic ? "الإسكندرية" : "Alexandria"}</option>
-                <option value="Mansoura">{isArabic ? "المنصورة" : "Mansoura"}</option>
-              </select>
+              <input name="school" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "المدرسة" : "School"}</label>
             </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faMapMarkerAlt} />
-              <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder={isArabic ? "العنوان" : "Address"} required />
+              <input name="address" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "العنوان" : "Address"}</label>
             </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faPhone} />
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder={isArabic ? "رقم الهاتف" : "Phone"} required />
+              <input name="phone" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "رقم الهاتف" : "Phone"}</label>
             </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faEnvelope} />
-              <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder={isArabic ? "البريد الإلكتروني" : "Email"} required />
+              <input type="email" name="email" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "البريد الإلكتروني" : "Email"}</label>
             </div>
-            <div className="input-group">
-              <FontAwesomeIcon icon={faImage} />
-              <input type="file" name="schoolLogo" onChange={handleChange} />
-            </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faLock} />
-              <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder={isArabic ? "كلمة المرور" : "Password"} required />
+              <input type="password" name="password" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "كلمة المرور" : "Password"}</label>
             </div>
+
             <div className="input-group">
               <FontAwesomeIcon icon={faLock} />
-              <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder={isArabic ? "تأكيد كلمة المرور" : "Confirm Password"} required />
+              <input type="password" name="confirmPassword" placeholder=" " onChange={handleChange} required />
+              <label>{isArabic ? "تأكيد كلمة المرور" : "Confirm Password"}</label>
             </div>
+
+            <div className="image-upload">
+              <label>
+                <FontAwesomeIcon icon={faImage} />
+                <span>{isArabic ? "ارفع صورتك" : "Upload Your Image"}</span>
+                <input type="file" accept="image/*" onChange={handleChange} />
+              </label>
+
+              {imagePreview && <img src={imagePreview} alt="Preview" />}
+            </div>
+
             <button type="submit">{isArabic ? "تسجيل" : "Register"}</button>
           </form>
-          {loading && <p className="status-msg">{isArabic ? "جارٍ تسجيل الحساب..." : "Registering..."}</p>}
-          {message && <p className="status-msg success">{message}</p>}
+
+          {message && <p className="status-msg">{message}</p>}
         </div>
       </div>
     </div>

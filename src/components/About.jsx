@@ -38,7 +38,7 @@ export default function About() {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundBlendMode: theme === "dark" ? "darken" : "lighten"
-    }}>
+    }} dir={isArabic?'rtl':'ltr'}>
       <div style={{
         maxWidth: "900px",
         margin: "0 auto",

@@ -35,11 +35,11 @@ export default function App() {
               element={
                 <>
                   <Main />
-                  <FinelPage />
                   <Features />
+                  <FinelPage />
                   <CarouselComponent />
-                  <Ways/>
                   <OurPartners />
+                  <Ways/>
                 </>
               }
             />

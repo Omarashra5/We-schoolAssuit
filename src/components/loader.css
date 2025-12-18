@@ -1,85 +1,41 @@
+/* ===== CONTAINER ===== */
 .loader-container {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top, #3a0ca3, #000);
+  background: radial-gradient(circle at center, #3a0ca3, #000);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  overflow: hidden;
 }
 
+/* ===== CONTENT ===== */
 .loader-content {
   text-align: center;
   animation: fadeIn 1s ease forwards;
+  position: relative;
 }
 
-.loader-title { font-size: 3rem; letter-spacing: 4px; margin-bottom: 20px; text-transform: uppercase; }
-.loader-title .we { color: #ff6bcb; text-shadow: 0 0 15px rgba(255, 107, 203, 0.8); }
-.loader-title .assiut { color: #fff; font-weight: 300; }
-.loader-logo { width: 130px; margin: 20px auto; animation: logoPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
-
-.loader-bar {
-  width: 260px;
-  height: 6px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 25px auto 0;
-}
-
-.loader-bar span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #ff6bcb, #5f0fff);
-  border-radius: 10px;
-}
-
-.loader-subtitle { color: rgba(255,255,255,0.7); font-size: 1rem; margin-top: 0.5rem; letter-spacing: 1px; text-transform: uppercase; }
-
-@keyframes logoPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.08);} }
-@keyframes fadeIn { from{opacity:0;transform:translateY(15px);} to{opacity:1;transform:translateY(0);} }
-/* شريط التحميل */
-.loader-bar {
-  width: 260px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 25px auto 0;
-}
-
-.loader-bar span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #ff6bcb, #5f0fff);
-  border-radius: 10px;
-  transition: width 0.1s ease-in-out;
-}
-
-/* اللوجو */
+/* ===== LOGO ===== */
 .loader-logo {
-  width: 130px;
+  width: 150px;
   margin: 20px auto;
   animation: logoPulse 2s infinite ease-in-out;
-  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
 }
 
-@keyframes logoPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-/* نصوص loader */
+/* ===== TITLES ===== */
 .loader-title {
   font-size: 3rem;
-  letter-spacing: 4px;
-  margin-bottom: 20px;
+  letter-spacing: 5px;
+  margin-top: 10px;
   text-transform: uppercase;
 }
 
 .loader-title .we {
   color: #ff6bcb;
-  text-shadow: 0 0 15px rgba(255, 107, 203, 0.8);
+  text-shadow: 0 0 20px rgba(255,107,203,0.8);
 }
 
 .loader-title .assiut {
@@ -88,10 +44,68 @@
 }
 
 .loader-subtitle {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.7);
   font-size: 1rem;
   margin-top: 0.5rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+/* ===== PROGRESS NUMBER ===== */
+.loader-progress-number {
+  margin-top: 25px;
+  font-size: 2rem;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(255,255,255,0.7);
+  transition: color 0.3s ease;
+}
+
+/* ===== LOADING BAR ===== */
+.loader-bar {
+  width: 300px;
+  height: 8px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px auto 0;
+  box-shadow: 0 0 10px rgba(108,99,255,0.3) inset;
+  position: relative;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6bcb, #5f0fff, #1900ff);
+  border-radius: 10px;
+  transition: width 0.1s ease-in-out;
+  box-shadow: 0 0 15px rgba(108,99,255,0.6);
+}
+
+/* ===== GLOW EFFECT ===== */
+.loader-glow {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 8px;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.25);
+  filter: blur(10px);
+  border-radius: 10px;
+  z-index: 1;
+  pointer-events: none;
+  transition: width 0.1s ease-in-out;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }

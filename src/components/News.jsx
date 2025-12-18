@@ -190,7 +190,7 @@ useEffect(() => {
   if (loading) return <LoaderNews />;
 
   return (
-    <div className="news-container" style={{ background: theme === "dark" ? "#111" : "#f8f9fa", color: theme === "dark" ? "#fff" : "#111", minHeight: "80vh", padding: "2rem" }}>
+    <div dir={isArabic?'rtl':'ltr'} className="news-container" style={{ background: theme === "dark" ? "#111" : "#f8f9fa", color: theme === "dark" ? "#fff" : "#111", minHeight: "80vh", padding: "2rem" }}>
       <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>{isArabic ? "الأخبار" : "News"} <i class="fa-solid fa-newspaper"></i></h1>
 
       <div className="news-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>

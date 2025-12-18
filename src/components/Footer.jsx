@@ -78,7 +78,7 @@ export default function Footer() {
         <hr />
 
         <div className="text-center pt-3" style={{ fontSize: "0.95rem" }}>
-          &copy; {new Date().getFullYear()} {text[lang].school}. All rights reserved. Crafted with <strong><mark>❤ Omar Ashraf</mark></strong>
+          &copy; {new Date().getFullYear()} {text[lang].school}. All rights reserved. Crafted with <strong><mark>Omar Ashraf</mark></strong>
         </div>
       </div>
 
