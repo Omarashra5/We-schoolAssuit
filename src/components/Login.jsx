@@ -29,30 +29,31 @@ export default function Login({ onLogin }) {
     },
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+const handleSubmit = (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
 
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const found = users.find(
-        (u) => u.email === email && u.password === password
+  setTimeout(() => {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const found = users.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (found) {
+      setMessage(isArabic ? "تم تسجيل الدخول بنجاح" : "Login successful");
+      onLogin(found); // found.image موجودة دلوقتي
+    } else {
+      setMessage(
+        isArabic
+          ? "بيانات الدخول غير صحيحة"
+          : "Invalid email or password"
       );
-
-      if (found) {
-        setMessage(isArabic ? "تم تسجيل الدخول بنجاح" : "Login successful");
-        onLogin(found);
-      } else {
-        setMessage(
-          isArabic
-            ? "بيانات الدخول غير صحيحة"
-            : "Invalid email or password"
-        );
-      }
-      setLoading(false);
-    }, 1200);
-  };
+    }
+    setLoading(false);
+  }, 1200);
+};
+  
 
   return (
     <div

@@ -1,14 +1,10 @@
 import { useContext, useState } from "react";
 import { LanguageContext } from "../context/LanguageContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
-import img1 from './images/programming.jfif'
-import img2 from './images/network.jfif'
-import img3 from './images/telycommunications.jfif'
-
 export default function InfoSection() {
     const { lang } = useContext(LanguageContext);
     const { theme } = useContext(ThemeContext);
-    const [faqStep, setFaqStep] = useState(0); // 0 -> first 5, 1 -> next 5, 2 -> last 5
+    const [faqStep, setFaqStep] = useState(0);
     const [openFaqs, setOpenFaqs] = useState({});
     const toggleFaq = (index) => {
         setOpenFaqs(prev => ({
@@ -19,11 +15,6 @@ export default function InfoSection() {
 
     const text = {
         en: {
-            cards: [
-                { title: "Networking", description: "Understand networks, protocols, and infrastructure.", img: img2 },
-                { title: "Programming", description: "Learn coding, algorithms, and software development.", img: img1 },
-                { title: "Telecommunications", description: "Study communication systems and technologies.", img: img3 },
-            ],
             faqTitle: "Frequently Asked Questions",
             faqs: [
                 { question: "What is WE Applied Technology School?", answer: "It is the first school specialized in communications and IT, a partnership between MCIT and Telecom Egypt, based on the competency-based education system." },
@@ -44,11 +35,6 @@ export default function InfoSection() {
             ]
         },
         ar: {
-            cards: [
-                { title: "الشبكات", description: "فهم الشبكات والبروتوكولات والبنية التحتية.", img: img2 },
-                { title: "البرمجة", description: "تعلم البرمجة والخوارزميات وتطوير البرمجيات.", img: img1 },
-                { title: "الاتصالات", description: "دراسة أنظمة وتقنيات الاتصالات.", img: img3 },
-            ],
             faqTitle: "الأسئلة الشائعة",
             faqs: [
                 { question: "ايه هي مدرسة WE للتكنولوجيا التطبيقية؟", answer: "هي أول مدرسة متخصصة في مجالي الاتصالات وتكنولوجيا المعلومات وهي شراكة بين وزارة الاتصالات وشركة المصرية للاتصالات ونظام التعليم فيها قائم على الجدارات." },
@@ -69,54 +55,20 @@ export default function InfoSection() {
             ]
         }
     };
-    const faqs = text[lang].faqs; // هتخليه هنا فوق قبل JSX
+    const faqs = text[lang].faqs;
 
     const bgColor = theme === "dark" ? "#111111ff" : "#f8f9fa";
     const textColor = theme === "dark" ? "text-white" : "text-dark";
 
     // slice faqs based on faqStep
-    const faqsToShow = text[lang].faqs.slice(faqStep * 5, faqStep * 5 + 5);
-
+    const faqsToShow = text[lang].faqs.slice(faqStep * 4, faqStep * 10 + 10);
     const handleToggleFaq = () => {
-        setFaqStep((prev) => (prev + 1) % 3); // 0 -> 1 -> 2 -> 0
+        setFaqStep((prev) => (prev + 1) % 3);
     };
     const cards = text[lang]?.cards || [];
 
     return (
-        <section dir={lang==='ar'?'rtl':'ltr'} style={{ backgroundColor: bgColor, padding: "5rem 0", transition: "all 0.5s" }}>
-            {/* Cards Section */}
-            <h1 className={`text-center mb-5 ${textColor}`} style={{ fontWeight: 800, fontSize: "2.8rem" }}>
-                {lang === "ar" ? "الأقسام" : "Departments"} <i className="fa-solid fa-building"></i>
-            </h1>
-            <div className="container">
-                <div className="row g-4">
-                    {cards.map((card, idx) => (
-                        <div key={idx} className="col-md-4">
-                            <div
-                                className={`card h-100 position-relative overflow-hidden ${theme === "dark" ? "bg-dark text-white" : "bg-white text-dark"}`}
-                                style={{
-                                    borderRadius: "25px",
-                                    cursor: "pointer",
-                                    transition: "all 0.4s",
-                                    boxShadow: theme === "dark" ? "0 10px 30px rgba(255,255,255,0.05)" : "0 10px 30px rgba(0,0,0,0.1)"
-                                }}
-                                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-10px) scale(1.03)"; e.currentTarget.style.boxShadow = theme === "dark" ? "0 25px 50px rgba(255,255,255,0.1)" : "0 25px 50px rgba(0,0,0,0.2)"; }}
-                                onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = theme === "dark" ? "0 10px 30px rgba(255,255,255,0.05)" : "0 10px 30px rgba(0,0,0,0.1)"; }}
-                            >
-                                <div style={{ overflow: "hidden", borderRadius: "25px 25px 0 0", position: "relative" }}>
-                                    <img src={card.img} alt={card.title} className="card-img-top" style={{ height: "220px", objectFit: "cover", transition: "transform 0.5s" }} />
-                                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.2))" }}></div>
-                                </div>
-                                <div className="card-body d-flex flex-column">
-                                    <h5 className="card-title" style={{ fontWeight: 700, fontSize: "1.5rem" }}>{card.title}</h5>
-                                    <p className="card-text flex-grow-1">{card.description}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
+        <section dir={lang === 'ar' ? 'rtl' : 'ltr'} style={{ backgroundColor: bgColor, padding: "5rem 0", transition: "all 0.5s" }}>
             {/* FAQ Section */}
             <div className="container mt-5">
                 <h3 className={`mb-4 ${textColor}`} style={{ fontWeight: 700 }}>
@@ -175,7 +127,7 @@ export default function InfoSection() {
                             onMouseEnter={e => e.currentTarget.style.transform = "scale(1.1)"}
                             onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
                         >
-                            {faqStep < Math.ceil(faqs.length / 5) - 1 ? (lang === "ar" ? "عرض المزيد" : "See More") : (lang === "ar" ? "عرض أقل" : "See Less")}
+                            {faqStep < Math.ceil(faqs.length / 5) - 1 ? (lang === "ar" ? "عرض المزيد" : "See More") : (lang === "ar" ? "العودة" : "Back")}
                         </button>
                     </div>
                 )}

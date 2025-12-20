@@ -1,109 +1,63 @@
 .about-timeline {
-  margin-top: 5rem;
-  padding: 3rem 1rem;
+  padding: 6rem 2rem;
+  text-align: center;
   position: relative;
-  color: #fff;
 }
 
 .about-timeline h2 {
-  text-align: center;
   font-size: 3rem;
   font-weight: 900;
+  margin-bottom: 5rem;
   background: linear-gradient(90deg, #8b00ff, #c473ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 4rem;
   text-transform: uppercase;
 }
 
-.timeline-wrapper {
+.timeline-container {
   display: flex;
-  flex-direction: column;
-  position: relative; /* مهم للـ absolute line */
-  max-width: 900px;
-  margin: auto;
-}
-
-.timeline-wrapper::before {
-  content: '';
-  position: absolute; /* بدل sticky */
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 100%; /* يغطي كل الطول */
-  background: linear-gradient(180deg, #8b00ff, #c473ff);
-  border-radius: 3px;
-  z-index: 0;
-}
-.timeline-item {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
   position: relative;
-  width: 50%;
-  padding: 1rem 3rem;
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 5rem;
-  z-index: 1;
 }
 
-.timeline-item:nth-child(odd) {
-  left: 0;
-  text-align: right;
-}
-
-.timeline-item:nth-child(even) {
-  left: 50%;
-  text-align: left;
-}
-
-.timeline-circle {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,#ff0000,#c473ff);
-  border: 4px solid #fff;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  box-shadow: 0 0 20px rgba(196,115,255,0.7);
-  animation: pulseCircle 2s infinite;
-}
-
-
-@keyframes pulseCircle {
-  0%,100% { transform: translateX(-50%) scale(1); opacity: 1; }
-  50% { transform: translateX(-50%) scale(1.6); opacity: 0.5; }
-}
-
-.timeline-content {
-  background-color: rgba(0,0,0,0.7); /* Dark background شفاف قليلاً */
-  color: #fff; /* النص يظل أبيض */
+.timeline-card {
+  background: rgba(0,0,0,0.7);
   backdrop-filter: blur(12px);
-  padding: 1.5rem 2rem;
   border-radius: 20px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+  width: 300px;
+  padding: 2rem;
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* لو عندك light mode */
-.light .timeline-content {
-  background-color: rgba(255,255,255,0.85);
+.light .timeline-card {
+  background: rgba(255,255,255,0.85);
   color: #111;
 }
 
+.timeline-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 25px 60px rgba(139,0,255,0.6);
+}
 
-.timeline-item:hover .timeline-content {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 20px 50px rgb(111, 0, 255);
+@keyframes pulseCircle {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.5; }
+}
+
+.timeline-info {
+  text-align: center;
 }
 
 .timeline-year {
   font-weight: 900;
-  color: #ffffff;
   font-size: 1.3rem;
   display: block;
   margin-bottom: 0.5rem;
+  color: #fff;
 }
 
 .timeline-title {
@@ -118,22 +72,11 @@
 .timeline-desc {
   font-size: 1rem;
   line-height: 1.6;
-  color: rgba(255,255,255,0.9);
 }
 
 @media (max-width: 1024px) {
-  .timeline-item {
-    width: 100%;
-    left: 0 !important;
-    text-align: center;
-    padding: 1rem 1.5rem;
-  }
-
-  .timeline-wrapper::before {
-    left: 20px;
-  }
-
-  .timeline-circle {
-    left: 20px;
+  .timeline-container {
+    flex-direction: column;
+    align-items: center;
   }
 }

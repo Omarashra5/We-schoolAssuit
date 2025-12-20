@@ -50,28 +50,37 @@ export default function Register({ onRegister }) {
       setFormData({ ...formData, [name]: value });
     }
   };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+  if (formData.password !== formData.confirmPassword) {
+    setMessage(isArabic ? "كلمة المرور غير متطابقة" : "Passwords do not match");
+    setLoading(false);
+    return;
+  }
 
-    if (formData.password !== formData.confirmPassword) {
-      setMessage(isArabic ? "كلمة المرور غير متطابقة" : "Passwords do not match");
-      setLoading(false);
-      return;
-    }
+  setTimeout(() => {
+    // جلب المستخدمين الموجودين
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    setTimeout(() => {
-      onRegister({
-        ...formData,
-        image: imagePreview
-      });
+    // المستخدم الجديد مع الصورة
+    const newUser = {
+      ...formData,
+      image: imagePreview
+    };
 
-      setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
-      setLoading(false);
-    }, 1200);
-  };
+    users.push(newUser);
+
+    // حفظ كل المستخدمين في localStorage
+    localStorage.setItem("users", JSON.stringify(users));
+
+    onRegister(newUser);
+    setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
+    setLoading(false);
+  }, 1200);
+};
 
   return (
     <div className="register-container" data-theme={theme} dir={isArabic ? "rtl" : "ltr"}>

@@ -8,6 +8,7 @@ export default function Navbar({ user }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { lang, setLang } = useContext(LanguageContext);
   const [loadingLang, setLoadingLang] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const isArabic = lang === "ar";
   const navigate = useNavigate();
 
@@ -20,6 +21,17 @@ export default function Navbar({ user }) {
     document.body.style.backgroundColor = theme === "dark" ? "#111" : "#fff";
     document.body.style.color = theme === "dark" ? "#fff" : "#000";
   }, [theme]);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   const navBg = theme === "dark" ? "rgba(20,0,50,0.85)" : "rgba(255,255,255,0.95)";
   const navText = theme === "dark" ? "text-white" : "text-dark";
@@ -40,7 +52,7 @@ export default function Navbar({ user }) {
       {loadingLang && <Loader />}
 
       <nav className={`navbar navbar-expand-lg shadow-lg p-3 rounded-5 mt-3 ${navText}`}
-        style={{ backdropFilter: "blur(20px)", background: navBg, transition: "all 0.4s ease", zIndex: 999 }} dir={isArabic ? "rtl" : "ltr"}>
+        style={{ backdropFilter: "blur(25px)", background: navBg, transition: "all 0.4s ease", zIndex: 999 }} dir={isArabic ? "rtl" : "ltr"}>
         <div className="container-fluid d-flex align-items-center justify-content-between">
 
           {/* Logo */}
@@ -63,9 +75,7 @@ export default function Navbar({ user }) {
                   <span
                     className={`nav-link fw-semibold ${navText} nav-glow`}
                     style={{ cursor: "pointer" }}
-                    onClick={() =>
-                      goTo(item === "home" ? "/" : `/${item}`)
-                    }
+                    onClick={() => goTo(item === "home" ? "/" : `/${item}`)}
                   >
                     <i
                       className={`fas fa-${item === "home" ? "home" : item === "about" ? "school" : item === "news" ? "newspaper" : "envelope"} me-2`}
@@ -78,6 +88,9 @@ export default function Navbar({ user }) {
             </ul>
 
             <div className="d-flex gap-3 align-items-center">
+
+              {/* Online Status */}
+              <i className={`fas fa-wifi${isOnline ? "" : "-slash"} fs-5`} style={{ color: isOnline ? "#0f0" : "rgba(255, 0, 0, 1)" }} title={isOnline ? "Online" : "Offline"}></i>
 
               {user ? (
                 <button className="btn btn-gradient fw-semibold px-4 py-2" onClick={() => goTo("/profile")}>
@@ -110,7 +123,9 @@ export default function Navbar({ user }) {
         </div>
       </nav>
 
+      {/* CSS */}
       <style>{`
+        /* تصميمات محسّنة لل Navbar */
         .logo-circle {
           width: 60px;
           height: 60px;
@@ -129,17 +144,12 @@ export default function Navbar({ user }) {
           transform: scale(1.25) rotate(-10deg);
           box-shadow: 0 15px 50px rgba(140,0,255,0.8);
         }
-
         .gradient-text {
           background: linear-gradient(90deg,#8b00ff,#c473ff);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
-
-        .nav-link.nav-glow {
-          position: relative;
-          transition: all 0.3s ease;
-        }
+        .nav-link.nav-glow { position: relative; transition: all 0.3s ease; }
         .nav-link.nav-glow::after {
           content: '';
           position: absolute;
@@ -152,87 +162,25 @@ export default function Navbar({ user }) {
           transition: all 0.3s ease;
           transform: translateX(-50%);
         }
-        .nav-link.nav-glow:hover::after {
-          width: 70%;
-        }
-        .nav-link.nav-glow:hover {
-          transform: translateY(-3px) scale(1.08);
-          color: #c473ff;
-        }
+        .nav-link.nav-glow:hover::after { width: 70%; }
+        .nav-link.nav-glow:hover { transform: translateY(-3px) scale(1.08); color: #c473ff; }
 
-        .btn-gradient {
-          background: linear-gradient(135deg,#8b00ff,#c473ff);
-          color: #fff;
-          border: none;
-          border-radius: 18px;
-          transition: all 0.3s;
-          font-size: 0.95rem;
-        }
-        .btn-gradient:hover {
-          transform: scale(1.12) rotate(-3deg);
-          box-shadow: 0 12px 35px rgba(140,0,255,0.7);
-        }
+        .btn-gradient { background: linear-gradient(135deg,#8b00ff,#c473ff); color: #fff; border: none; border-radius: 18px; transition: all 0.3s; font-size: 0.95rem; }
+        .btn-gradient:hover { transform: scale(1.12) rotate(-3deg); box-shadow: 0 12px 35px rgba(140,0,255,0.7); }
 
-        .btn-outline-gradient {
-          background: transparent;
-          border: 2px solid #8b00ff;
-          color: #8b00ff;
-          border-radius: 18px;
-          transition: all 0.3s;
-        }
-        .btn-outline-gradient:hover {
-          background: #8b00ff;
-          color: #fff;
-          transform: scale(1.12);
-          box-shadow: 0 12px 35px rgba(140,0,255,0.7);
-        }
+        .btn-outline-gradient { background: transparent; border: 2px solid #8b00ff; color: #8b00ff; border-radius: 18px; transition: all 0.3s; }
+        .btn-outline-gradient:hover { background: #8b00ff; color: #fff; transform: scale(1.12); box-shadow: 0 12px 35px rgba(140,0,255,0.7); }
 
-        .btn-lang-fancy {
-          background: linear-gradient(135deg,#8b00ff,#c473ff);
-          color: #fff;
-          font-weight: 700;
-          padding: 0.55rem 1.5rem;
-          border: none;
-          border-radius: 16px;
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          box-shadow: 0 6px 25px rgba(140,0,255,0.5);
-        }
-        .btn-lang-fancy:hover {
-          transform: scale(1.15);
-          box-shadow: 0 12px 40px rgba(140,0,255,0.8);
-        }
-        .btn-lang-fancy .ripple {
-          position: absolute;
-          width: 120px;
-          height: 120px;
-          background: rgba(255,255,255,0.35);
-          border-radius: 50%;
-          transform: scale(0);
-          pointer-events: none;
-          animation: ripple-effect 0.6s linear;
-        }
+        .btn-lang-fancy { background: linear-gradient(135deg,#8b00ff,#c473ff); color: #fff; font-weight: 700; padding: 0.55rem 1.5rem; border: none; border-radius: 16px; position: relative; overflow: hidden; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 6px 25px rgba(140,0,255,0.5); }
+        .btn-lang-fancy:hover { transform: scale(1.15); box-shadow: 0 12px 40px rgba(140,0,255,0.8); }
+        .btn-lang-fancy .ripple { position: absolute; width: 120px; height: 120px; background: rgba(255,255,255,0.35); border-radius: 50%; transform: scale(0); pointer-events: none; animation: ripple-effect 0.6s linear; }
         @keyframes ripple-effect { to { transform: scale(4); opacity: 0; } }
 
-        .btn-theme-toggle {
-          background: transparent;
-          border: none;
-          font-size: 1.35rem;
-          color: ${iconColor};
-          cursor: pointer;
-          transition: transform 0.3s;
-        }
+        .btn-theme-toggle { background: transparent; border: none; font-size: 1.35rem; color: ${iconColor}; cursor: pointer; transition: transform 0.3s; }
         .btn-theme-toggle:hover { transform: scale(1.3) rotate(15deg); }
 
-        .navbar-toggler {
-          border-radius: 12px;
-          border: none;
-        }
-        .navbar-toggler-icon {
-          filter: ${theme === "dark" ? "invert(1)" : "invert(0)"};
-        }
+        .navbar-toggler { border-radius: 12px; border: none; }
+        .navbar-toggler-icon { filter: ${theme === "dark" ? "invert(1)" : "invert(0)"}; }
       `}</style>
     </>
   );
