@@ -189,7 +189,7 @@ export default function Register({ onRegister }) {
               <label>
                 <FontAwesomeIcon icon={faImage} />
                 <span>{isArabic ? "ارفع صورتك" : "Upload Your Image"}</span>
-                <input type="file" accept="image/*" onChange={handleChange} />
+                <input type="file" accept="image/*" required onChange={handleChange} />
               </label>
 
               {imagePreview && <img src={imagePreview} alt="Preview" />}

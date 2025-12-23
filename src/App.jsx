@@ -108,7 +108,6 @@ export default function App() {
           </Routes>
 
           <Footer />
-          {/* 👇 زر العودة لأعلى */}
           <ScrollToTopButton />
         </>
       )}
