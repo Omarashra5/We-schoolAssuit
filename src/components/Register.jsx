@@ -60,7 +60,7 @@ export default function Register({ onRegister }) {
 
     // ===== VALIDATION =====
     if (formData.name.trim().length < 3) {
-      setMessage(isArabic ? "الاسم يجب أن يكون 5 أحرف على الأقل" : "Name must be at least 5 characters");
+      setMessage(isArabic ? "الاسم يجب أن يكون 3 أحرف على الأقل" : "Name must be at least 5 characters");
       setLoading(false);
       return;
     }
