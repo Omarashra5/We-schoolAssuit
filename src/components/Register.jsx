@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { LanguageContext } from "../context/LanguageContext.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +20,7 @@ export default function Register({ onRegister }) {
   const { theme } = useContext(ThemeContext);
   const { lang } = useContext(LanguageContext);
   const isArabic = lang === "ar";
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -50,37 +52,73 @@ export default function Register({ onRegister }) {
       setFormData({ ...formData, [name]: value });
     }
   };
-const handleSubmit = (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
 
-  if (formData.password !== formData.confirmPassword) {
-    setMessage(isArabic ? "كلمة المرور غير متطابقة" : "Passwords do not match");
-    setLoading(false);
-    return;
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  setTimeout(() => {
-    // جلب المستخدمين الموجودين
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    // ===== VALIDATION =====
+    if (formData.name.trim().length < 3) {
+      setMessage(isArabic ? "الاسم يجب أن يكون 5 أحرف على الأقل" : "Name must be at least 5 characters");
+      setLoading(false);
+      return;
+    }
 
-    // المستخدم الجديد مع الصورة
-    const newUser = {
-      ...formData,
-      image: imagePreview
-    };
+    if (!formData.email.endsWith("@gmail.com")) {
+      setMessage(isArabic ? "البريد الإلكتروني يجب أن يكون Gmail" : "Email must be a Gmail address");
+      setLoading(false);
+      return;
+    }
 
-    users.push(newUser);
+    if (formData.password.length < 6) {
+      setMessage(isArabic ? "كلمة المرور يجب أن تكون 6 أحرف على الأقل" : "Password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
 
-    // حفظ كل المستخدمين في localStorage
-    localStorage.setItem("users", JSON.stringify(users));
+    if (formData.password !== formData.confirmPassword) {
+      setMessage(isArabic ? "كلمة المرور غير متطابقة" : "Passwords do not match");
+      setLoading(false);
+      return;
+    }
 
-    onRegister(newUser);
-    setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
-    setLoading(false);
-  }, 1200);
-};
+    const phoneRegex = /^[0-9]{11}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setMessage(isArabic ? "رقم الهاتف يجب أن يكون 11 رقم" : "Phone number must be 11 digits");
+      setLoading(false);
+      return;
+    }
+
+    setTimeout(() => {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // منع تكرار الإيميل
+      const emailExists = users.some(u => u.email === formData.email);
+      if (emailExists) {
+        setMessage(isArabic ? "هذا البريد مستخدم بالفعل" : "Email already exists");
+        setLoading(false);
+        return;
+      }
+
+      const newUser = {
+        ...formData,
+        image: imagePreview
+      };
+
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+
+      onRegister(newUser);
+      setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
+
+      setTimeout(() => {
+        navigate("/"); // Home
+      }, 800);
+
+      setLoading(false);
+    }, 1200);
+  };
 
   return (
     <div className="register-container" data-theme={theme} dir={isArabic ? "rtl" : "ltr"}>
@@ -93,7 +131,6 @@ const handleSubmit = (e) => {
           <h2>{isArabic ? "تسجيل حساب جديد" : "Register New Account"}</h2>
 
           <form onSubmit={handleSubmit}>
-
             <div className="input-group">
               <FontAwesomeIcon icon={faUser} />
               <input name="name" placeholder=" " onChange={handleChange} required />
@@ -103,8 +140,12 @@ const handleSubmit = (e) => {
             <div className="input-group">
               <FontAwesomeIcon icon={faUserTie} />
               <select name="role" onChange={handleChange} required>
-                <option value="student" style={{ color:'black' }}>{isArabic ? "طالب" : "Student"}</option>
-                <option value="teacher" style={{ color:'black' }}>{isArabic ? "مدرس" : "Teacher"}</option>
+                <option value="student" style={{ color: "black" }}>
+                  {isArabic ? "طالب" : "Student"}
+                </option>
+                <option value="teacher" style={{ color: "black" }}>
+                  {isArabic ? "مدرس" : "Teacher"}
+                </option>
               </select>
             </div>
 

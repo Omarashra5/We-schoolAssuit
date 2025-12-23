@@ -25,8 +25,8 @@ export default function Programs() {
       id: 2,
       title: isArabic ? "العلوم التطبيقية" : "Applied Sciences",
       description: isArabic
-        ? "دراسة الفيزياء والكيمياء والرياضيات بأسلوب عملي مبسط."
-        : "Study physics, chemistry, and mathematics in a practical way.",
+        ? "دراسة الفيزياء والرياضيات بأسلوب عملي مبسط."
+        : "Study physics, and mathematics in a practical way.",
       image: iconScience
     },
     {
@@ -65,7 +65,8 @@ export default function Programs() {
           marginBottom: "4rem",
           fontSize: "3rem",
           fontWeight: "800",
-          letterSpacing: "1px"
+          letterSpacing: "1px",
+          color: theme === "dark" ? "#fff" : "#000000ff"
         }}
       >
         {isArabic ? "برامج المدرسة" : "Our Programs"}
