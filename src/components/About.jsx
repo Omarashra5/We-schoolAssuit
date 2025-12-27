@@ -2,12 +2,13 @@ import { useContext } from "react";
 import { LanguageContext } from "../context/LanguageContext.jsx";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import aboutBg from "../components/images/student2.jpg";
+import "./DownloadCV.css";
 
 export default function About() {
   const { lang } = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const isArabic = lang === "ar";
-
+  const cvLink = "/OmarAshraf_Cv.docx";
   const text = {
     en: {
       title: "About WE Assiut School & Applied Technology",
@@ -96,6 +97,13 @@ export default function About() {
             <p>{text[lang].conclusion}</p>
           </section>
         </div>
+      </div>
+      <div className="download-cv-container" data-theme={theme} dir={isArabic ? "rtl" : "ltr"}>
+        <h2>{isArabic ? "تحميل السيرة الذاتية" : "Download My CV"}</h2>
+        <p>{isArabic ? "تعرف على مطور الموقع" : "Get to know the website developer"}</p>
+        <a href={cvLink} download className="download-cv-btn">
+          {isArabic ? "تحميل الآن" : "Download Now"}
+        </a>
       </div>
     </section>
   );

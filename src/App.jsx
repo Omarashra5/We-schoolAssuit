@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Main from "./components/Main";
@@ -16,6 +15,7 @@ import News from "./components/News";
 import FinelPage from "./components/FinelPage";
 import Programs from "./components/Programs";
 import Ways from "./components/Ways";
+import CookieConsent from "./components/CookieConsent";
 
 const BLOCK_DURATION = 10 * 1000; 
 
@@ -26,6 +26,22 @@ export default function App() {
   const [blocked, setBlocked] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(30);
 
+  const [showScroll, setShowScroll] = useState(false);
+
+  // Scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScroll(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // === Existing security hooks ===
   useEffect(() => {
     const blockUntil = localStorage.getItem("blockUntil");
     if (blockUntil && Date.now() < Number(blockUntil)) {
@@ -66,6 +82,7 @@ export default function App() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [blocked]);
+
   useEffect(() => {
     if (hackCount >= 5 && !blocked) {
       const until = Date.now() + BLOCK_DURATION;
@@ -93,6 +110,7 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [blocked]);
+
   useEffect(() => {
     if (blocked) return;
 
@@ -117,6 +135,7 @@ export default function App() {
       document.removeEventListener("dragstart", blockDrag);
     };
   }, [blocked]);
+
   useEffect(() => {
     if (blocked) return;
 
@@ -134,7 +153,6 @@ export default function App() {
     return () => clearInterval(interval);
   }, [blocked]);
 
-  // إخفاء console
   useEffect(() => {
     console.log = console.warn = console.error = () => {};
   }, []);
@@ -158,7 +176,7 @@ export default function App() {
           ) : (
             <>
               <Navbar user={currentUser} />
-
+              <CookieConsent/>
               <Routes>
                 <Route
                   path="/"
@@ -182,6 +200,13 @@ export default function App() {
               </Routes>
 
               <Footer />
+
+              {/* Scroll to Top Button */}
+              {showScroll && (
+                <button className="scroll-top-btn" onClick={scrollToTop} data-theme="light">
+                  <h5>Top</h5>
+                </button>
+              )}
             </>
           )}
         </>
@@ -226,6 +251,43 @@ export default function App() {
           0% { opacity: 1; }
           50% { opacity: 0.85; }
           100% { opacity: 1; }
+        }
+
+        /* Scroll Top Button */
+        .scroll-top-btn {
+          position: fixed;
+          bottom: 20px;
+          right: 40px;
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(135deg, #782fffff, #7724ddff);
+          color: #fff;
+          border: none;
+          border-radius: 20%;
+          font-size: 2rem;
+          cursor: pointer;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+          transition: all 0.3s ease-in-out;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .scroll-top-btn:hover {
+          transform: scale(1.15);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+          animation: glow 1.2s infinite alternate;
+        }
+
+        [data-theme="dark"] .scroll-top-btn {
+          background: linear-gradient(135deg, #00c6ff, #0072ff);
+          color: #fff;
+        }
+
+        @keyframes glow {
+          from { box-shadow: 0 5px 20px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.3); }
+          to { box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.6); }
         }
       `}</style>
     </>
