@@ -165,8 +165,8 @@ export default function Navbar({ user }) {
         .nav-link.nav-glow:hover::after { width: 70%; }
         .nav-link.nav-glow:hover { transform: translateY(-3px) scale(1.08); color: #c473ff; }
 
-        .btn-gradient { background: linear-gradient(135deg,#8b00ff,#c473ff); color: #fff; border: none; border-radius: 18px; transition: all 0.3s; font-size: 0.95rem; }
-        .btn-gradient:hover { transform: scale(1.12) rotate(-3deg); box-shadow: 0 12px 35px rgba(140,0,255,0.7); }
+        .btn-gradient { background: linear-gradient(135deg,#8b00ff,#c473ff); color: #ffffffff; border: none; border-radius: 10px; transition: all 0.3s; font-size: 0.95rem; }
+        .btn-gradient:hover { transform: scale(1.12) rotate(-3deg); color: #ffffffff; box-shadow: 0 12px 35px rgba(140,0,255,0.7); }
 
         .btn-outline-gradient { background: transparent; border: 2px solid #8b00ff; color: #8b00ff; border-radius: 18px; transition: all 0.3s; }
         .btn-outline-gradient:hover { background: #8b00ff; color: #fff; transform: scale(1.12); box-shadow: 0 12px 35px rgba(140,0,255,0.7); }

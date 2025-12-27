@@ -1,10 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext.jsx";
 import { LanguageContext } from "../context/LanguageContext.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSchool } from "@fortawesome/free-solid-svg-icons";
-
-import "../components/CssCarousel.css";
 
 import img3 from "./images/185.jpg";
 import img4 from "./images/795.jpg";
@@ -17,96 +13,118 @@ export default function ImageCarousel() {
   const { lang } = useContext(LanguageContext);
   const isArabic = lang === "ar";
 
-  const images = [img3, img4, img5, img6, img7];
+  const images = [
+    { src: img3, title: isArabic ? "مدرسة WE أسيوط" : "WE Assiut School" },
+    { src: img4, title: isArabic ? "مختبرات حديثة" : "Modern Labs" },
+    { src: img5, title: isArabic ? "فصول تقنية" : "Tech Classrooms" },
+    { src: img6, title: isArabic ? "ورش عملية" : "Hands-on Workshops" },
+    { src: img7, title: isArabic ? "طلابنا المتميزين" : "Our Outstanding Students" }
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 4000); // كل 4 ثواني
+    }, 4000);
     return () => clearInterval(timer);
   }, []);
 
-  const nextSlide = () =>
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  const prevSlide = () =>
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-
-  const title = isArabic
-    ? "صور لمدارس WE للتكنولوجيا التطبيقية"
-    : "Photo WE Applied Technology School";
+  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
 
   return (
     <div
       className="carousel-container"
-      style={{
-        background: theme === "dark" ? "#111" : "#f8f9fa",
-        padding: "2rem 0",
-      }}
       dir={isArabic ? "rtl" : "ltr"}
+      style={{
+        background: theme === "dark" ? "#0f0f1f" : "#f9f9f9",
+        padding: "3rem 0",
+        position: "relative",
+        textAlign: "center",
+      }}
     >
-      {/* عنوان Carousel */}
-      <div className="carousel-header text-center mb-4">
-        <h2 style={{ color: theme === "dark" ? "#fff" : "#111" }}>
-          <FontAwesomeIcon icon={faSchool} className="me-2" />
-          {title}
-        </h2>
-      </div>
-
-      {/* صور Carousel */}
-      <div className="carousel-wrapper">
-        {images.map((img, idx) => {
-          const diff = idx - currentIndex;
-          const scale = diff === 0 ? 1.2 : 0.8; // الصورة المركزية أكبر
-          const zIndex = diff === 0 ? 3 : 2 - Math.abs(diff);
-          const opacity = Math.abs(diff) > 3 ? 0 : 1;
-          const translateX = diff * 260; // مسافة أكبر مع الصور الكبيرة
-          const rotateY = diff * 8; // ميلان بسيط للصور الجانبية
-
-          return (
+      <div className="carousel-wrapper" style={{ position: "relative", height: "220px" }}>
+        {images.map((img, idx) => (
+          <div
+            key={idx}
+            style={{
+              opacity: idx === currentIndex ? 1 : 0,
+              transition: "opacity 1s ease",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "300px",
+              height: "200px",
+            }}
+          >
             <img
-              key={idx}
-              src={img}
-              alt={`carousel-${idx}`}
-              className="carousel-image"
+              src={img.src}
+              alt={img.title}
               style={{
-                transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
-                zIndex: zIndex,
-                opacity: opacity,
-                transition: "all 0.6s ease",
-                borderRadius: "15px",
-                boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
-                width: "300px",
-                height: "200px",
+                width: "100%",
+                height: "100%",
                 objectFit: "cover",
+                borderRadius: "12px",
+                boxShadow: theme === "dark"
+                  ? "0 10px 25px rgba(0,0,0,0.7)"
+                  : "0 10px 25px rgba(0,0,0,0.2)"
               }}
             />
-          );
-        })}
+            <div style={{
+              position: "absolute",
+              bottom: "10px",
+              width: "100%",
+              textAlign: "center",
+              color: theme === "dark" ? "#fff" : "#111",
+              background: theme === "dark" ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.6)",
+              padding: "5px 0",
+              borderRadius: "0 0 12px 12px",
+              fontWeight: "600"
+            }}>
+              {img.title}
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* أزرار التنقل */}
       <button
-        className="carousel-btn prev"
+        onClick={prevSlide}
         style={{
-          background: theme === "dark" ? "#1c1c1c" : "#007bff",
+          position: "absolute",
+          top: "50%",
+          left: "10px",
+          transform: "translateY(-50%)",
+          border: "none",
+          background: theme === "dark" ? "#222" : "#007bff",
           color: "#fff",
+          padding: "0.6rem 1rem",
+          borderRadius: "8px",
+          cursor: "pointer",
+          opacity: 0.7,
         }}
-        onClick={isArabic ? nextSlide : prevSlide} // لو عربي، السهم اليسار يبقى next
       >
         {isArabic ? ">" : "<"}
       </button>
       <button
-        className="carousel-btn next"
+        onClick={nextSlide}
         style={{
-          background: theme === "dark" ? "#1c1c1c" : "#007bff",
+          position: "absolute",
+          top: "50%",
+          right: "10px",
+          transform: "translateY(-50%)",
+          border: "none",
+          background: theme === "dark" ? "#222" : "#007bff",
           color: "#fff",
+          padding: "0.6rem 1rem",
+          borderRadius: "8px",
+          cursor: "pointer",
+          opacity: 0.7,
         }}
-        onClick={isArabic ? prevSlide : nextSlide} // لو عربي، السهم اليمين يبقى prev
       >
         {isArabic ? "<" : ">"}
       </button>
-
     </div>
   );
 }

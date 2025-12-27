@@ -14,6 +14,7 @@ import {
   faImage
 } from "@fortawesome/free-solid-svg-icons";
 import Loader from "./Loader";
+import emailjs from "@emailjs/browser";
 import "./RegisterForm.css";
 
 export default function Register({ onRegister }) {
@@ -28,7 +29,7 @@ export default function Register({ onRegister }) {
 
   const [formData, setFormData] = useState({
     name: "",
-    role: "",
+    role: "student",
     school: "",
     address: "",
     phone: "",
@@ -53,14 +54,14 @@ export default function Register({ onRegister }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
     // ===== VALIDATION =====
     if (formData.name.trim().length < 3) {
-      setMessage(isArabic ? "الاسم يجب أن يكون 3 أحرف على الأقل" : "Name must be at least 5 characters");
+      setMessage(isArabic ? "الاسم يجب أن يكون 3 أحرف على الأقل" : "Name must be at least 3 characters");
       setLoading(false);
       return;
     }
@@ -89,35 +90,51 @@ export default function Register({ onRegister }) {
       setLoading(false);
       return;
     }
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const emailExists = users.some(u => u.email === formData.email);
+    if (emailExists) {
+      setMessage(isArabic ? "هذا البريد مستخدم بالفعل" : "Email already exists");
+      setLoading(false);
+      return;
+    }
+
+    const newUser = { ...formData, image: imagePreview };
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // إعداد بيانات الإيميل
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      school: formData.school,
+      phone: formData.phone,
+      password: formData.password,
+      image: imagePreview || ""
+    };
+
+    console.log("Sending email with params:", templateParams);
+
+    try {
+      await emailjs.send(
+        "service_8sq9gsq",       // Service ID
+        "template_w5em05t",      // Template ID
+        templateParams,
+        "kgf6e68wRgtEA2Qyv"     // Public Key
+      );
+      console.log("Email sent successfully");
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      setMessage(isArabic ? "حدث خطأ أثناء إرسال الإيميل" : "Failed to send email");
+    }
+
+    onRegister(newUser);
+    setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
 
     setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
+      navigate("/"); // العودة للصفحة الرئيسية
+    }, 800);
 
-      // منع تكرار الإيميل
-      const emailExists = users.some(u => u.email === formData.email);
-      if (emailExists) {
-        setMessage(isArabic ? "هذا البريد مستخدم بالفعل" : "Email already exists");
-        setLoading(false);
-        return;
-      }
-
-      const newUser = {
-        ...formData,
-        image: imagePreview
-      };
-
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-
-      onRegister(newUser);
-      setMessage(isArabic ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
-
-      setTimeout(() => {
-        navigate("/"); // Home
-      }, 800);
-
-      setLoading(false);
-    }, 1200);
+    setLoading(false);
   };
 
   return (
@@ -140,12 +157,8 @@ export default function Register({ onRegister }) {
             <div className="input-group">
               <FontAwesomeIcon icon={faUserTie} />
               <select name="role" onChange={handleChange} required>
-                <option value="student" style={{ color: "black" }}>
-                  {isArabic ? "طالب" : "Student"}
-                </option>
-                <option value="teacher" style={{ color: "black" }}>
-                  {isArabic ? "مدرس" : "Teacher"}
-                </option>
+                <option value="student">{isArabic ? "طالب" : "Student"}</option>
+                <option value="teacher">{isArabic ? "مدرس" : "Teacher"}</option>
               </select>
             </div>
 
