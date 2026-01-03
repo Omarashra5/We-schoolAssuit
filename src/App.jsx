@@ -16,7 +16,7 @@ import FinelPage from "./components/FinelPage";
 import Programs from "./components/Programs";
 import Ways from "./components/Ways";
 import CookieConsent from "./components/CookieConsent";
-import SuperNavbar  from "./components/SuperNavbar ";
+import SuperNavbar  from "./components/SuperNavbar";
 
 const BLOCK_DURATION = 10 * 1000; 
 
