@@ -65,7 +65,7 @@ export default function Footer() {
         </div>
         <div className="text-center my-4">
           <img
-            src="/public/images/QRCode for تقييم موقع مدرسة وي اسيوط التكنولوجيا التطبيقيه .png"
+            src="/public/images/QRCode for تقييم موقع مدرسة وي اسيوط التكنولوجيا التطبيقيه.png"
             alt="QR Code"
             className="footer-qr"
           />
