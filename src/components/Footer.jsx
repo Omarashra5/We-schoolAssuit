@@ -63,7 +63,13 @@ export default function Footer() {
             <p><a className="footer-link social" href="mailto:info@weassiut.edu.eg">we@weassiut.edu.eg</a></p>
           </div>
         </div>
-
+        <div className="text-center my-4">
+          <img
+            src="/public/images/QRCode for تقييم موقع مدرسة وي اسيوط التكنولوجيا التطبيقيه .png"
+            alt="QR Code"
+            className="footer-qr"
+          />
+        </div>
         <hr />
 
         <div className="text-center pt-3">
@@ -76,13 +82,21 @@ export default function Footer() {
           position: relative;
           overflow: hidden;
           font-family: 'Inter', sans-serif;
-          color: ${theme==='dark' ? '#e0e0e0' : '#222'};
-          background: ${theme==='dark' ? 'linear-gradient(135deg, #0a0a23, #1a0a3a)' : 'linear-gradient(135deg, #f0f4ff, #dce6ff)'};
+          color: ${theme === 'dark' ? '#e0e0e0' : '#222'};
+          background: ${theme === 'dark' ? 'linear-gradient(135deg, #0a0a23, #1a0a3a)' : 'linear-gradient(135deg, #f0f4ff, #dce6ff)'};
         }
-
+  .footer-qr {
+    max-width: 150px;   /* حجم ثابت مناسب */
+    width: 100%;
+    height: auto;
+    margin: 0 auto;    /* يتوسط العنصر */
+    display: block;
+    border-radius: 12px; /* زاوية مدورة */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* شادو لطيف */
+  }
         .footer-logo {
           max-height: 80px;
-          filter: ${theme==='dark' ? 'drop-shadow(0 0 25px #7f00ff)' : 'drop-shadow(0 0 20px #5f4fff)'};
+          filter: ${theme === 'dark' ? 'drop-shadow(0 0 25px #7f00ff)' : 'drop-shadow(0 0 20px #5f4fff)'};
           transition: transform 0.3s ease;
         }
         .footer-logo:hover { transform: scale(1.08); }
@@ -91,7 +105,7 @@ export default function Footer() {
           font-size: 1.5rem;
           font-weight: 700;
           margin-bottom: 1rem;
-          color: ${theme==='dark' ? '#fff' : '#333'};
+          color: ${theme === 'dark' ? '#fff' : '#333'};
           background: linear-gradient(90deg, #7f00ff, #00d4ff);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -107,7 +121,7 @@ export default function Footer() {
         }
 
         .footer-link:hover {
-          color: ${theme==='dark' ? '#00d4ff' : '#7f00ff'};
+          color: ${theme === 'dark' ? '#00d4ff' : '#7f00ff'};
           transform: translateX(4px);
         }
 
@@ -118,7 +132,7 @@ export default function Footer() {
         hr {
           border: none;
           height: 1px;
-          background: ${theme==='dark' ? '#444' : '#ccc'};
+          background: ${theme === 'dark' ? '#444' : '#ccc'};
           opacity: 0.4;
           margin: 2rem 0;
         }
